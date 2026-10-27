@@ -1,0 +1,7 @@
+SpaceJump GitHub Pages
+
+1. ZIP entpacken.
+2. Im GitHub Repository auf Add file -> Upload files.
+3. Alle sechs Dateien in die oberste Ebene hochladen (nicht die ZIP).
+4. Commit changes anklicken.
+5. Settings -> Pages -> Deploy from a branch -> main -> /(root) -> Save.
