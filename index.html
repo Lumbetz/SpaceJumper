@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.2.0">
-<title>SpaceJumper v2.2.0 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.6.1">
+<title>SpaceJumper v2.6.1 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -14,7 +14,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .hud{position:absolute;left:0;right:0;top:0;padding:15px 15px 8px;display:flex;justify-content:space-between;gap:10px;pointer-events:none;z-index:2}
 .pill{padding:8px 12px;min-width:105px;backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);background:linear-gradient(180deg,#1d3e74d8,#102450b8);border:1px solid #ffffff62;border-radius:16px;color:white;text-shadow:0 1px 2px #0005;box-shadow:0 6px 16px #08284d50,inset 0 1px 0 #ffffff38}
 .lab{display:block;color:#d1e5ff;text-transform:uppercase;letter-spacing:1.25px;font-size:10px;font-weight:1000}
-.num{display:block;font-size:24px;line-height:1.14;font-weight:1000;letter-spacing:-.9px;white-space:nowrap}.right{text-align:right}.right .num{font-size:20px}
+.num{display:block;font-size:24px;line-height:1.14;font-weight:1000;letter-spacing:-.9px;white-space:nowrap}.right{text-align:right}.right .num{font-size:16px;letter-spacing:-.7px}.hud .pill.right{min-width:0;width:106px;padding:7px 9px}.hud .pill:first-child{min-width:0;width:130px;padding:8px 9px}.hud .pill:first-child .num{font-size:23px}
 .cash{color:#ffdf75;font-size:11px;font-weight:1000}
 .zonehud{position:absolute;top:92px;left:15px;width:218px;color:#fff;z-index:2;padding:7px 11px 9px;border-radius:14px;background:linear-gradient(180deg,#1a4c8bcc,#122e64b8);border:1px solid #ffffff45;backdrop-filter:blur(8px);box-shadow:0 8px 20px #00133333;pointer-events:none}
 .zonehud .ztop{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900}.zonehud .next{font-size:10px;color:#e5eefe;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -29,10 +29,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .autofireToggle{position:absolute;right:13px;top:225px;z-index:4;display:none;min-height:42px;padding:8px 11px;border-radius:12px;background:#34284bcf;color:#ffdfa1;border:2px solid #ffdda66e;font:1000 12px ui-rounded,'Trebuchet MS',system-ui,sans-serif;box-shadow:0 4px 12px #08163477;cursor:pointer;touch-action:manipulation}.autofireToggle.enabled{background:linear-gradient(135deg,#ffca58,#ff8f50);border-color:#ffe7af;color:#38253d;box-shadow:0 0 16px #ffa85066,0 4px 12px #08163477}
 .overlay{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(#061943ad,#0a1a4dce);backdrop-filter:blur(5px)}
 .overlay[hidden],.shopLayer[hidden],.toast[hidden]{display:none}
-.panel{width:100%;max-width:355px;max-height:calc(100% - 6px);overflow-y:auto;scrollbar-width:thin;background:linear-gradient(153deg,#ffffff,#eff6ff 60%,#dceeff);border:3px solid #fff;border-radius:29px;color:#122c61;padding:21px 18px;text-align:center;box-shadow:0 12px 0 #122d61ad,0 21px 36px #0007,inset 0 1px 0 #fff}
-.hero{position:relative;width:96px;height:106px;margin:0 auto 9px;display:grid;place-items:center}.hero canvas{width:96px;height:105px}
-h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing:-1.9px;color:#112e64;text-shadow:0 3px #b9dfff}
-.subtitle{font-size:14px;line-height:1.45;margin:0 0 16px;color:#416080;font-weight:800}
+.panel{position:relative;width:100%;max-width:355px;max-height:calc(100% - 6px);overflow-y:auto;scrollbar-width:thin;background:linear-gradient(165deg,#ffffff 0%,#f4f9ff 48%,#d9ebff 100%);border:3px solid #fff;border-radius:32px;color:#122c61;padding:24px 18px 20px;text-align:center;box-shadow:0 12px 0 #122d61ad,0 21px 36px #0007,inset 0 1px 0 #fff}\n.panel::before{content:'';position:absolute;inset:12px 12px auto;height:150px;border-radius:24px;background:radial-gradient(circle at 50% 20%,#ffffffd9 0%,#cfe6ff85 42%,#0000 74%),linear-gradient(180deg,#d7ecff55,#ffffff00);pointer-events:none}\n.hero{position:relative;width:126px;height:136px;margin:2px auto 10px;display:grid;place-items:center;border-radius:30px;background:radial-gradient(circle at 50% 35%,#ffffff 0%,#ecf8ff 28%,#d7e8ff 48%,#bdd8fb 70%,#0000 72%);box-shadow:inset 0 2px 0 #fff,0 16px 30px #98c4ff33}\n.hero::before{content:'';position:absolute;inset:auto 18px 10px 18px;height:18px;border-radius:50%;background:radial-gradient(ellipse at center,#84b4ff66 0%,#84b4ff22 55%,#0000 80%);filter:blur(6px)}\n.hero canvas{position:relative;width:102px;height:112px;z-index:1}\nh1{font-size:clamp(34px,8.4vw,46px);margin:0 0 10px;line-height:.92;letter-spacing:-2.2px;background:linear-gradient(180deg,#173f83 0%,#102d65 52%,#0f2550 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 4px 0 #cbe4ff,0 10px 18px #93b8ea44}\n.subtitle{font-size:14px;line-height:1.55;margin:0 0 14px;color:#3f628b;font-weight:900;background:linear-gradient(180deg,#f8fbff,#ebf5ff);border:1px solid #d5e7fb;border-radius:18px;padding:12px 14px;box-shadow:inset 0 1px 0 #fff,0 8px 18px #8cb7e81f}\n.menu-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 14px}\n.menu-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;background:linear-gradient(180deg,#edf6ff,#dcecff);border:1px solid #c3d9f5;color:#244f85;font-size:11px;font-weight:1000;box-shadow:0 4px 10px #93b8ea1c}
 .scorebox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 13px}.scorebox[hidden]{display:none}
 .scorebox div{background:#e0eeff;border-radius:13px;padding:8px 3px}.scorebox span{display:block;text-transform:uppercase;color:#627797;font-weight:1000;letter-spacing:1px;font-size:10px}.scorebox strong{font-size:clamp(12px,4vw,21px);overflow-wrap:anywhere}
 .btn{cursor:pointer;border:0;border-radius:14px;font:1000 16px ui-rounded,'Trebuchet MS',system-ui,sans-serif;min-height:43px;padding:11px 13px}
@@ -50,7 +47,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
 .xpheadline{display:flex;justify-content:space-between;gap:8px;margin-top:6px;margin-bottom:4px;font-size:11px;font-weight:900;color:#f8e7ff}.xpbar i{background:linear-gradient(90deg,#8b6cf0,#e0a9ff,#fff4b9)!important}.resourcebar .energytrack{height:7px;border-radius:8px;background:#17213f;border:1px solid #8297c06b;overflow:hidden}.resourcebar .energytrack i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#44bbed,#a1f6ff);border-radius:8px;transition:width .12s linear}
 @media(max-height:620px){.resourcebar{bottom:95px;padding:5px 9px}.controls{bottom:12px}.nav{height:63px}.shootbtn{height:67px}}
 @media(max-height:680px){.statushud{top:140px}}
-.toast{position:absolute;top:172px;left:50%;transform:translateX(-50%);z-index:4;width:max-content;max-width:90%;padding:11px 16px;background:linear-gradient(135deg,#ffefac,#ffce74);color:#3b2f57;border:2px solid white;border-radius:16px;font-weight:1000;font-size:14px;box-shadow:0 7px 0 #0003,0 10px 22px #0004;pointer-events:none;text-align:center;animation:pop .3s ease-out}
+.toast{position:absolute;top:15px;left:50%;transform:translateX(-50%);z-index:6;width:36%;max-width:155px;max-height:73px;overflow:hidden;padding:7px 6px;line-height:1.18;overflow-wrap:anywhere;background:linear-gradient(135deg,#ffefac,#ffce74);color:#3b2f57;border:2px solid white;border-radius:16px;font-weight:1000;font-size:10px;box-shadow:0 5px 0 #0003,0 7px 17px #0004;pointer-events:none;text-align:center;animation:pop .3s ease-out}
 @keyframes pop{from{transform:translate(-50%,-10px) scale(.8);opacity:0}to{transform:translate(-50%,0) scale(1);opacity:1}}
 .shopLayer{position:absolute;inset:0;z-index:8;background:linear-gradient(#081c4ce0,#101e46ed);backdrop-filter:blur(9px);display:flex;justify-content:center;align-items:center;padding:12px}
 .shopPanel{background:linear-gradient(#fff,#e9f4ff);color:#183466;border:3px solid white;border-radius:25px;width:100%;max-width:387px;height:min(705px,calc(100% - 8px));display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 42px #0007}
@@ -142,6 +139,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
 .version-hud{display:block;margin-top:3px;color:#a6cffc;font-size:10px;letter-spacing:.6px;font-weight:900}
 .version-menu{margin:8px 0 0;padding:7px 8px;border:1px solid #c2d6f0;border-radius:10px;background:#e5f1ff;color:#375a8a;font-size:11px;font-weight:900;display:flex;gap:5px;flex-wrap:wrap;align-items:center;justify-content:center}
 .version-menu button{border:1px solid #a9c4e5;border-radius:8px;padding:4px 7px;background:#fff;color:#2e5c96;font:900 11px ui-rounded,'Trebuchet MS',system-ui,sans-serif;cursor:pointer}
+.resline{display:none!important}.resourcebar{padding-top:10px}
 #updateStatus{color:#567093;font-size:10px;line-height:1.3}
 .update-notice{position:absolute;z-index:15;top:11px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:380px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;border:2px solid #fff0ad;border-radius:15px;background:linear-gradient(125deg,#fff9dd,#ffe3a3);color:#493f27;box-shadow:0 8px 32px #060d2866}
 .update-notice[hidden]{display:none}
@@ -170,6 +168,23 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
 .backupWarn{background:#fff2cd;color:#7a511d;padding:8px 10px;border-radius:10px;font-weight:850;font-size:11px;line-height:1.35;margin:7px 0 10px}
 .backupHelp{font-size:11px!important;margin-top:0!important}
 @media(max-height:675px){.backupPanel{padding:12px}.backupPanel p{margin:6px 0}.backupActions button{padding:8px 5px}.backupPanel textarea{min-height:58px}.backupSummary{margin-bottom:6px}}
+
+/* Animated menu v2.6 */
+.overlay:not([hidden]){background:radial-gradient(circle at 20% 25%,#728ff77a,transparent 45%),radial-gradient(circle at 80% 75%,#bd64db7a,transparent 45%),linear-gradient(145deg,#061943dd,#0a1a4dee);background-size:120% 120%;animation:skyDrift 9s ease-in-out infinite alternate}
+@keyframes skyDrift{to{background-position:70px -55px}}
+.overlay:not([hidden])::before{content:'✦  ✧  ✦  ✧  ✦';position:absolute;top:4%;width:100%;text-align:center;letter-spacing:17px;color:#ffffffaa;animation:twinkle 2.5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes twinkle{to{opacity:.2;transform:translateY(9px)}}
+.overlay .panel{animation:menuEnter .6s ease-out both}
+@keyframes menuEnter{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
+.overlay .hero{animation:floatHero 3.2s ease-in-out infinite}
+@keyframes floatHero{50%{transform:translateY(-9px)}}
+.overlay h1{animation:revealTitle .8s ease-out both,titleGlow 3s 1s ease-in-out infinite alternate}
+@keyframes revealTitle{from{opacity:0;transform:scale(.84)}to{opacity:1;transform:scale(1)}}
+@keyframes titleGlow{to{filter:drop-shadow(0 0 12px #69bcff)}}
+.overlay .action{background:linear-gradient(135deg,#fff5bb,#ffcb59 48%,#ff9641);border:2px solid #fff1c6;box-shadow:0 5px 0 #b77521,0 9px 20px #d8933b66,inset 0 2px 0 #fff9;transition:filter .15s,transform .15s}
+.overlay .secondary{background:linear-gradient(135deg,#fff,#d8eaff);border:2px solid #bad4f3;box-shadow:0 3px 0 #8eadd6,0 7px 13px #729bd52c;transition:filter .15s,transform .15s}
+.overlay .action:active,.overlay .secondary:active{filter:brightness(1.08);transform:translateY(3px)}
+@media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -183,7 +198,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.2.0</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.1</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -200,7 +215,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
     <div class="panel">
       <div class="hero"><canvas id="heroCanvas" width="120" height="132" aria-label="Spielfigur"></canvas></div>
       <h1 id="title">SPACE<br>JUMPER!</h1>
-      <p class="subtitle" id="subtitle">32 Sphären bis über 2.000.000 m! Entdecke 22 Gegnertypen und 33 Waffen mit unendlicher Munition.</p>
+      <p class="subtitle" id="subtitle">„Springe durch fremde Welten, sammle Münzen, besiege Gegner und erreiche ungeahnte Höhen. Wie weit schaffst du es?“</p>
       <div class="mode-picker" id="modePicker" aria-label="Spielmodus wählen"><button class="mode-option active" id="modeNormal" type="button">🌤 NORMAL<small>Entspannt springen</small></button><button class="mode-option hardcore" id="modeHardcore" type="button">☠ HARDCORE<small>Mehr Gegner · 2 Startleben</small></button></div>
       <div class="level-summary" id="levelSummary">⭐ Sunny · Level 1 · 0 XP</div>
       <div class="scorebox" id="scorebox" hidden><div><span>Deine Höhe</span><strong id="finalScore">0 m</strong></div><div><span>Rekord</span><strong id="finalBest">0 m</strong></div></div>
@@ -222,7 +237,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.2.0</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.1</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -318,7 +333,15 @@ const CHARACTERS=[
  {id:'pirate',name:'Captain Flux',at:23000,emoji:'🏴‍☠️',a:'#ffdcaa',b:'#915c48',info:'Freischalten bei 23.000 m'},
  {id:'magma',name:'Pyro',at:27500,emoji:'🌋',a:'#ffb16b',b:'#d94f39',info:'Freischalten bei 27.500 m'},
  {id:'crystal',name:'Crystalix',at:33000,emoji:'💠',a:'#d6fdff',b:'#73d6f0',info:'Freischalten bei 33.000 m'},
- {id:'mecha',name:'Aegis-X',at:40000,emoji:'🛸',a:'#d0d5e6',b:'#6b76ab',info:'Freischalten bei 40.000 m'}
+ {id:'mecha',name:'Aegis-X',at:40000,emoji:'🛸',a:'#d0d5e6',b:'#6b76ab',info:'Freischalten bei 40.000 m'},
+ {id:'neonfox',name:'Neon-Fuchs',at:46000,price:1100,emoji:'🦊',a:'#a7fff6',b:'#337ac5',info:'46.000 m + 1.100 Münzen'},
+ {id:'starlord',name:'Sternenlord',at:65000,price:1700,emoji:'🌠',a:'#ffdf9d',b:'#a36db3',info:'65.000 m + 1.700 Münzen'},
+ {id:'shadowcat',name:'Schattenkatze',at:90000,price:2600,emoji:'🐈‍⬛',a:'#a5a8ee',b:'#373363',info:'90.000 m + 2.600 Münzen'},
+ {id:'cyberpanda',name:'Cyber-Panda',at:130000,price:4000,emoji:'🐼',a:'#e7f8ff',b:'#5d8eb0',info:'130.000 m + 4.000 Münzen'},
+ {id:'phoenixhero',name:'Phönix',at:200000,price:6500,emoji:'🔥',a:'#ffe4a5',b:'#ef674b',info:'200.000 m + 6.500 Münzen'},
+ {id:'voidknight',name:'Void-Ritter',at:350000,price:9900,emoji:'🛡️',a:'#b39dff',b:'#46316f',info:'350.000 m + 9.900 Münzen'},
+ {id:'auroraking',name:'Aurora-König',at:600000,price:14500,emoji:'👑',a:'#f5faff',b:'#78a6d8',info:'600.000 m + 14.500 Münzen'},
+ {id:'cosmicbeast',name:'Kosmos-Bestie',at:1000000,price:22000,emoji:'🐲',a:'#f9b2ff',b:'#7853ad',info:'1.000.000 m + 22.000 Münzen'}
 ];
 const ITEMS=[
  {id:'cap',name:'Basecap',cat:'Kopfbedeckungen',slot:'head',price:8,emoji:'🧢'},
@@ -377,21 +400,66 @@ const ITEMS=[
  {id:'embertrail',name:'Glutkomet-Spur',cat:'Legendär',slot:'trail',price:480,emoji:'☄️'},
  {id:'goldtrail',name:'Goldregen-Spur',cat:'Legendär',slot:'trail',price:730,emoji:'✨'},
  {id:'shadowtrail',name:'Schattennebel',cat:'Legendär',slot:'trail',price:980,emoji:'🌑'},
- {id:'novatrail',name:'Nova-Sternspur',cat:'Legendär',slot:'trail',price:1500,emoji:'🌟'}
+ {id:'novatrail',name:'Nova-Sternspur',cat:'Legendär',slot:'trail',price:1500,emoji:'🌟'},
+ {id:'diamondhalo',name:'Diamant-Halo',cat:'Mythisch',slot:'head',price:1950,emoji:'💎'},
+ {id:'moonhelmet',name:'Mond-Helm',cat:'Mythisch',slot:'head',price:2700,emoji:'🌙'},
+ {id:'solarcrown',name:'Sonnenkrone',cat:'Mythisch',slot:'head',price:4800,emoji:'☀️'},
+ {id:'astralhorns',name:'Astral-Hörner',cat:'Mythisch',slot:'head',price:6900,emoji:'🔮'},
+ {id:'icevisor',name:'Frost-Visier',cat:'Mythisch',slot:'face',price:1950,emoji:'❄️'},
+ {id:'firemask',name:'Flammenmaske',cat:'Mythisch',slot:'face',price:3900,emoji:'🔥'},
+ {id:'cosmicglasses',name:'Kosmosbrille',cat:'Mythisch',slot:'face',price:7200,emoji:'🌌'},
+ {id:'moonwings',name:'Mondflügel',cat:'Mythisch',slot:'back',price:2500,emoji:'🌙'},
+ {id:'aurorawings',name:'Auroraflügel',cat:'Mythisch',slot:'back',price:5200,emoji:'🪽'},
+ {id:'godpack',name:'Götter-Jetpack',cat:'Mythisch',slot:'back',price:10000,emoji:'🚀'},
+ {id:'comettrail',name:'Kometenschweif',cat:'Mythisch',slot:'trail',price:1750,emoji:'☄️'},
+ {id:'moontrail',name:'Mondstaub',cat:'Mythisch',slot:'trail',price:4200,emoji:'🌙'},
+ {id:'eternitytrail',name:'Ewigkeits-Spur',cat:'Mythisch',slot:'trail',price:8500,emoji:'♾️'},
+ {id:'starcirclet',name:'Sternenreif',cat:'Elite',slot:'head',price:2200,emoji:'🌟',visual:'halo',minLevel:15},
+ {id:'stormhelm',name:'Sturmhelm',cat:'Elite',slot:'head',price:3800,emoji:'🌩️',visual:'royalhelm',minLevel:22},
+ {id:'voidcrown',name:'Void-Krone',cat:'Elite',slot:'head',price:6500,emoji:'👑',visual:'diamondcrown',minLevel:30},
+ {id:'emperorhelm',name:'Imperatorhelm',cat:'Elite',slot:'head',price:11500,emoji:'🛡️',visual:'nebulahelm',minLevel:40},
+ {id:'eternalhorns',name:'Ewigkeits-Hörner',cat:'Elite',slot:'head',price:18000,emoji:'😈',visual:'neonhorns',minLevel:50},
+ {id:'arcticvisor',name:'Arktis-Visier',cat:'Elite',slot:'face',price:1800,emoji:'❄️',visual:'icevisor',minLevel:12},
+ {id:'cyberlens',name:'Cyber-Linse',cat:'Elite',slot:'face',price:3200,emoji:'🥽',visual:'laservisor',minLevel:20},
+ {id:'royaleyes',name:'Königsblick',cat:'Elite',slot:'face',price:5900,emoji:'👁️',visual:'royalmask',minLevel:29},
+ {id:'omnivisor',name:'Omni-Visier',cat:'Elite',slot:'face',price:10000,emoji:'💠',visual:'voidvisor',minLevel:39},
+ {id:'astralmask',name:'Astralmaske',cat:'Elite',slot:'face',price:17500,emoji:'🌌',visual:'cosmicglasses',minLevel:51},
+ {id:'frostwings',name:'Frostflügel',cat:'Elite',slot:'back',price:2600,emoji:'🪽',visual:'moonwings',minLevel:16},
+ {id:'ionpack',name:'Ionen-Jetpack',cat:'Elite',slot:'back',price:4300,emoji:'⚡',visual:'crystaljet',minLevel:24},
+ {id:'nebulacape',name:'Nebula-Umhang',cat:'Elite',slot:'back',price:7800,emoji:'🌌',visual:'galaxycape',minLevel:33},
+ {id:'royalwings',name:'Königsflügel',cat:'Elite',slot:'back',price:13500,emoji:'🪽',visual:'seraphwings',minLevel:44},
+ {id:'omnijet',name:'Omni-Jetpack',cat:'Elite',slot:'back',price:24000,emoji:'🚀',visual:'godpack',minLevel:55},
+ {id:'stardusttrail',name:'Sternenfunken',cat:'Elite',slot:'trail',price:2100,emoji:'✨',visual:'novatrail',minLevel:14},
+ {id:'frosttrail',name:'Frostkristalle',cat:'Elite',slot:'trail',price:3700,emoji:'❄️',visual:'diamonddust',minLevel:21},
+ {id:'thundertrail',name:'Donnerblitze',cat:'Elite',slot:'trail',price:6700,emoji:'⚡',visual:'lightningtrail',minLevel:31},
+ {id:'nebulatrail',name:'Nebelspur',cat:'Elite',slot:'trail',price:12000,emoji:'🌀',visual:'voidtrail',minLevel:41},
+ {id:'universetrail',name:'Universumsspur',cat:'Elite',slot:'trail',price:23000,emoji:'♾️',visual:'eternitytrail',minLevel:54}
+
 ];
 const PERKS=[
  {id:'amulet',name:'Herz-Amulett',emoji:'❤️',price:230,info:'Starte mit einem zusätzlichen Herz'},
  {id:'shieldkit',name:'Schildgenerator',emoji:'🛡️',price:360,info:'Starte mit einem Schutzschild (24 s)'},
- {id:'startinggun',name:'Waffenmodul',emoji:'🔫',price:650,info:'Starte mit einer Armbrust statt Steinschleuder'},
+ {id:'startinggun',name:'Waffen-Rabattchip',emoji:'🎟️',price:650,info:'Dauerhaft 15 % Rabatt beim Kauf neuer Waffen'},
  {id:'xpboost',name:'XP-Talisman',emoji:'⭐',price:850,info:'Verdiene 50 % mehr Erfahrungspunkte'},
  {id:'coinboost',name:'Münzscanner',emoji:'🪙',price:720,info:'Verdiene 25 % mehr Münzen'},
  {id:'revive',name:'Rettungsdrohne',emoji:'🛸',price:1300,info:'Rettet dich einmal pro Lauf vor dem Aus'},
- {id:'autofire',name:'Autofire-Modul',emoji:'🔥',price:20000,info:'Schießt automatisch nach oben – ohne Taste; jederzeit ein- und ausschaltbar'}
+ {id:'autofire',name:'Autofire-Modul',emoji:'🔥',price:20000,info:'Schießt automatisch nach oben – ohne Taste; jederzeit ein- und ausschaltbar'},
+ {id:'coinvault',name:'Münztresor',emoji:'🏦',price:3500,info:'50 % mehr Münzen aus gesammelten Münzen und Gegnern'},
+ {id:'xpengine',name:'XP-Reaktor',emoji:'🧬',price:5200,info:'75 % mehr XP bei allen Aktionen'},
+ {id:'superarmor',name:'Titan-Rüstung',emoji:'🛡️',price:8500,info:'Starte mit zwei zusätzlichen Lebenspunkten'},
+ {id:'luckycharm',name:'Glücks-Kristall',emoji:'🍀',price:12000,info:'Mehr Bonusmünzen beim Besiegen von Gegnern'},
+ {id:'goldmagnet',name:'Goldmagnet',emoji:'🧲',price:2600,minLevel:16,info:'Startet jeden Lauf mit 20 Sekunden Münzmagnet'},
+ {id:'xpchip',name:'XP-Chip II',emoji:'⭐',price:4800,minLevel:25,info:'Zusätzlich 20 % XP aus allen Aktionen'},
+ {id:'coincrown',name:'Münzkrone',emoji:'👑',price:8200,minLevel:34,info:'Zusätzlich 20 % Münzen bei jedem Fund'},
+ {id:'energyshell',name:'Energiepanzer',emoji:'🔋',price:12800,minLevel:42,info:'Starte mit längerem Schutzschild'},
+ {id:'lifecore',name:'Lebenskern',emoji:'❤️',price:18000,minLevel:50,info:'Ein zusätzliches Startleben'},
+ {id:'mastery',name:'Meisterschaft',emoji:'⚔️',price:25000,minLevel:58,info:'20 % mehr Schaden mit allen Waffen'}
+
 ];
 const SLOT_NAMES={head:'Kopf',face:'Gesicht',back:'Rücken',trail:'Spur'};
-const WEAPON_IDS=['stone','bolt','bullet','plasma','pellet','laser','missile','dual','ice','tesla','fan','triple','starlaser','nova','meteorstorm','phoenix','shock','poison','shrapnel','gravity','rainbowlaser','sun','omega','photon','thorn','sonic','chrono','prism','dragonfire','quantum','saw','blizzard','galaxy'];
+const WEAPON_IDS=['stone','bolt','bullet','plasma','pellet','laser','missile','dual','ice','tesla','fan','triple','starlaser','nova','meteorstorm','phoenix','shock','poison','shrapnel','gravity','rainbowlaser','sun','omega','photon','thorn','sonic','chrono','prism','dragonfire','quantum','saw','blizzard','galaxy','ionstorm','volcano','crystalrain','nebularay','hydrasalvo','thunderrail','voidpulse','astralbow','titanlaser','starfall','hypersaw','omnibreaker'];
 const KEY='hoehenrausch_save_v2'; // Unverändert: vorhandene Spielstände erhalten
-const makeDefault=()=>({best:0,wallet:0,total:0,char:'sunny',owned:[],records:[],runs:[],lastPlayerName:'',hardcoreBest:0,charXP:{},charSkills:{},perks:[],weaponOwned:['stone'],weaponLevels:{stone:1},equippedWeapon:'stone',autoFireEnabled:false,equip:{head:null,face:null,back:null,trail:null}});
+const makeDefault=()=>({best:0,wallet:0,total:0,char:'sunny',owned:[],records:[],runs:[],lastPlayerName:'',hardcoreBest:0,charXP:{},charSkills:{},perks:[],characterOwned:[],weaponOwned:['stone'],weaponLevels:{stone:1},equippedWeapon:'stone',autoFireEnabled:false,equip:{head:null,face:null,back:null,trail:null}});
 const cleanName=s=>String(s||'').replace(/[\x00-\x1f\x7f]/g,'').trim().slice(0,18);
 const validHeight=h=>Math.max(0,Math.min(999999999,Math.floor(Number(h)||0)));
 function normalizeRecords(list){
@@ -420,6 +488,7 @@ function loadSave(){const s=makeDefault();try{const raw=JSON.parse(localStorage.
   attack:Math.max(0,Math.min(30,Math.floor(Number(raw.charSkills[c.id]?.attack)||0))),
   jump:Math.max(0,Math.min(30,Math.floor(Number(raw.charSkills[c.id]?.jump)||0))),
   armor:Math.max(0,Math.min(30,Math.floor(Number(raw.charSkills[c.id]?.armor)||0)))}])):{};
+ s.characterOwned=Array.isArray(raw.characterOwned)?[...new Set(raw.characterOwned.filter(id=>CHARACTERS.some(c=>c.id===id&&c.price)))]:[];
  s.perks=Array.isArray(raw.perks)?[...new Set(raw.perks.filter(id=>PERKS.some(p=>p.id===id)))]:[];
  s.autoFireEnabled=s.perks.includes('autofire') && raw.autoFireEnabled===true;
  s.weaponOwned=Array.isArray(raw.weaponOwned)?[...new Set(['stone',...raw.weaponOwned.filter(id=>WEAPON_IDS.includes(id))])]:['stone'];
@@ -432,7 +501,7 @@ function loadSave(){const s=makeDefault();try{const raw=JSON.parse(localStorage.
  // Alte Besthöhe übernehmen, auch wenn nur der alte Highscore-Schlüssel vorhanden war.
  if(s.best>0&&!s.runs.some(r=>r.height===s.best))s.runs.unshift({height:s.best,date:'',character:'',name:'',legacy:true});
  s.records=normalizeRecords([...s.records,...s.runs]);
- if(CHARACTERS.find(c=>c.id===s.char).at>s.best)s.char='sunny';return s;
+ if(CHARACTERS.find(c=>c.id===s.char).at>s.best || (CHARACTERS.find(c=>c.id===s.char).price&&!s.characterOwned.includes(s.char)))s.char='sunny';return s;
 }
 const save=loadSave();
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(save));localStorage.setItem('hoehenrausch_best_v1',String(save.best));}catch(e){}}
@@ -443,7 +512,7 @@ const skillOf=(id=save.char)=>save.charSkills[id]||{attack:0,jump:0,armor:0};
 const pointsOf=(id=save.char)=>Math.max(0,levelOf(id)-1-Object.values(skillOf(id)).reduce((a,b)=>a+b,0));
 const hasPerk=id=>save.perks.includes(id);
 function updateLevelSummary(){const ch=CHARACTERS.find(c=>c.id===save.char)||CHARACTERS[0];$('levelSummary').innerHTML='⭐ <b>'+ch.name+'</b> · Level '+levelOf()+' · '+(save.charXP[save.char]||0).toLocaleString('de-DE')+' XP · '+pointsOf()+' Skillpunkte';}
-function gainXP(amount){const id=save.char,old=levelOf(),gain=Math.max(0,Math.round(amount*(hasPerk('xpboost')?1.5:1)*(runMode==='hardcore'?1.3:1)));save.charXP[id]=Math.min(9999999,(save.charXP[id]||0)+gain);const lev=levelOf();if(lev>old){showToast('⭐ LEVEL '+lev+'! +'+(lev-old)+' Skillpunkte',2.4);tone(1110,.18,'triangle');}persist();updateLevelSummary();}
+function gainXP(amount){const id=save.char,old=levelOf(),gain=Math.max(0,Math.round(amount*(hasPerk('xpboost')?1.5:1)*(hasPerk('xpengine')?1.75:1)*(runMode==='hardcore'?1.3:1)));save.charXP[id]=Math.min(9999999,(save.charXP[id]||0)+gain);const lev=levelOf();if(lev>old){showToast('⭐ LEVEL '+lev+'! +'+(lev-old)+' Skillpunkte',2.4);tone(1110,.18,'triangle');}persist();updateLevelSummary();}
 let recordView='top',runEntryPending=false;
 function addRunToRecords(height,name){
  if(!runEntryPending)return false;
@@ -541,12 +610,26 @@ const WEAPONS=[
  {name:'Quanten-Raketen',icon:'🛸',color:'#9aafff',cooldown:.77,speed:940,size:11,damage:32,ammo:null,cost:0,style:'quantum',sound:350},
  {name:'Sternensäge',icon:'🌠',color:'#fff1a8',cooldown:.4,speed:1270,size:9,damage:29,ammo:null,cost:0,style:'saw',sound:930},
  {name:'Frostorkan',icon:'🌨️',color:'#c4f9ff',cooldown:.67,speed:1040,size:6,damage:18,ammo:null,cost:0,style:'blizzard',sound:740},
- {name:'Galaxiebrecher',icon:'🌌',color:'#f49bff',cooldown:.95,speed:1010,size:15,damage:45,ammo:null,cost:0,style:'galaxy',sound:260}
+ {name:'Galaxiebrecher',icon:'🌌',color:'#f49bff',cooldown:.95,speed:1010,size:15,damage:45,ammo:null,cost:0,style:'galaxy',sound:260},
+ {name:'Ionensturm',icon:'⚡',color:'#86e8ff',cooldown:0.31,speed:1190,size:8,damage:51,ammo:null,cost:0,style:'ionstorm',attackStyle:'tesla',sound:1040},
+ {name:'Vulkanbrecher',icon:'🌋',color:'#ff914c',cooldown:0.52,speed:1050,size:12,damage:59,ammo:null,cost:0,style:'volcano',attackStyle:'dragonfire',sound:1040},
+ {name:'Kristallregen',icon:'💎',color:'#b2f9ff',cooldown:0.38,speed:1220,size:7,damage:64,ammo:null,cost:0,style:'crystalrain',attackStyle:'thorn',sound:1040},
+ {name:'Nebulastrahl',icon:'🌌',color:'#dda4ff',cooldown:0.57,speed:0,size:13,damage:72,ammo:null,cost:0,style:'nebularay',attackStyle:'prism',sound:1040},
+ {name:'Hydra-Salve',icon:'🐲',color:'#ffbb7c',cooldown:0.66,speed:1030,size:11,damage:80,ammo:null,cost:0,style:'hydrasalvo',attackStyle:'triple',sound:1040},
+ {name:'Donnerschiene',icon:'🌩️',color:'#b7ddff',cooldown:0.27,speed:1410,size:8,damage:89,ammo:null,cost:0,style:'thunderrail',attackStyle:'photon',sound:1040},
+ {name:'Void-Impuls',icon:'🟣',color:'#c099ff',cooldown:0.64,speed:960,size:16,damage:103,ammo:null,cost:0,style:'voidpulse',attackStyle:'gravity',sound:1040},
+ {name:'Astralbogen',icon:'🏹',color:'#f1b0fe',cooldown:0.32,speed:1320,size:8,damage:116,ammo:null,cost:0,style:'astralbow',attackStyle:'phoenix',sound:1040},
+ {name:'Titanlaser',icon:'🔆',color:'#ffef9f',cooldown:0.7,speed:0,size:16,damage:136,ammo:null,cost:0,style:'titanlaser',attackStyle:'starlaser',sound:1040},
+ {name:'Sternenfall',icon:'☄️',color:'#ffca9b',cooldown:0.82,speed:1090,size:13,damage:155,ammo:null,cost:0,style:'starfall',attackStyle:'meteorstorm',sound:1040},
+ {name:'Hyper-Säge',icon:'⚙️',color:'#a8f9fb',cooldown:0.37,speed:1500,size:10,damage:177,ammo:null,cost:0,style:'hypersaw',attackStyle:'saw',sound:1040},
+ {name:'Omnibrecher',icon:'♾️',color:'#ff9df0',cooldown:0.94,speed:1120,size:19,damage:215,ammo:null,cost:0,style:'omnibreaker',attackStyle:'galaxy',sound:1040}
+
 ];
 // Every weapon has its own permanent upgrade level, saved independently of the current run.
 const weaponUpgradeLevel=index=>Math.max(1,Math.min(5,save.weaponLevels[WEAPONS[index]?.style]||1));
-const weaponBuyCost=index=>index===0?0:Math.round(45+index*35+index*index*11);
-const weaponUpgradeCost=(index,level)=>Math.round((45+index*20)*level*level);
+const weaponRequiredLevel=index=>index<33?1:Math.min(60,12+(index-33)*4);
+const weaponBuyCost=index=>index===0?0:Math.round((index<33?(45+index*35+index*index*11):(6000+(index-33)*1600+(index-33)*(index-33)*440))*(hasPerk('startinggun')?.85:1));
+const weaponUpgradeCost=(index,level)=>Math.round((index<33?45+index*20:1600+(index-33)*460)*level*level);
 const currentWeapon=()=>{
  const index=clamp(player?.weaponLevel??0,0,WEAPONS.length-1),base=WEAPONS[index],level=weaponUpgradeLevel(index),extra=level-1;
  return {...base,upgradeLevel:level,damage:base.damage*(1+extra*.22),cooldown:Math.max(.105,base.cooldown*(1-extra*.055)),speed:base.speed*(1+extra*.05),size:base.size*(1+extra*.04)};
@@ -565,7 +648,7 @@ function explodeShot(shot){
  for(const e of enemies){if(e.dead)continue;const d=Math.hypot(e.x-shot.x,e.y-shot.y);if(d<radius+e.r){damageEnemy(e,shot.damage*(d<radius*.45?1:.6),true)}}
 }
 function damageEnemy(e,amount,byShot=true){
- if(e.dead)return; e.hp=(e.hp??1)-amount*(e.kind==='beetle'?.72:e.kind==='guardian'?.82:1)*(1+.035*Math.max(0,levelOf()-1)+skillOf().attack*.3);
+ if(e.dead)return; e.hp=(e.hp??1)-amount*(e.kind==='beetle'?.72:e.kind==='guardian'?.82:1)*(1+.035*Math.max(0,levelOf()-1)+skillOf().attack*.3)*(hasPerk('mastery')?1.2:1);
  if(e.hp<=0)killEnemy(e,false,byShot);
  else {puff(e.x,e.y,e.color,5,.4);tone(500,.045,'square',.012)}
 }
@@ -600,7 +683,7 @@ function hud(){
 }
 function showToast(msg,seconds=2.4){$('toast').textContent=msg;$('toast').hidden=false;toastUntil=performance.now()+seconds*1000;}
 function puff(x,y,color,n=8,power=1){for(let i=0;i<n;i++)particles.push({x,y,vx:rand(-120,120)*power,vy:rand(-15,165)*power,r:rand(2,6),life:rand(.3,.68),age:0,color})}
-const POWER_TYPES=['shield','magnet','double','rocket','weapon','ammo','energy','heart'];
+const POWER_TYPES=['shield','magnet','double','rocket','ammo','energy','heart'];
 const POWER_DATA={
  shield:{icon:'🛡️',name:'Schutzschild',info:'Blockiert den nächsten Treffer',color:'#7de3ff',seconds:22},
  magnet:{icon:'🧲',name:'Münzmagnet',info:'Zieht Münzen aus der Nähe an',color:'#f2a2fb',seconds:18},
@@ -611,13 +694,12 @@ const POWER_DATA={
  energy:{icon:'🔋',name:'Energiezelle',info:'Füllt Energie auf',color:'#8ffaac',seconds:0},
  heart:{icon:'❤️',name:'Herz',info:'Schenkt dir ein zusätzliches Leben',color:'#ff88a2',seconds:0}
 };
-function collectMoney(v,x,y){v=Math.round(v*(hasPerk('coinboost')?1.25:1));earnedCoins+=v;save.wallet+=v;save.total+=v;gainXP(Math.max(1,Math.ceil(v/3)));persist();puff(x,y,'#ffcd4a',10,1.1);tone(880,.11,'triangle',.03)}
+function collectMoney(v,x,y){v=Math.round(v*(hasPerk('coinboost')?1.25:1)*(hasPerk('coinvault')?1.5:1));earnedCoins+=v;save.wallet+=v;save.total+=v;gainXP(Math.max(1,Math.ceil(v/3)));persist();puff(x,y,'#ffcd4a',10,1.1);tone(880,.11,'triangle',.03)}
 function collectPower(up){up.taken=true;const meta=POWER_DATA[up.kind];
  if(up.kind==='weapon'){
-  if(player.weaponLevel<WEAPONS.length-1){player.weaponLevel++;player.energy=Math.min(100,player.energy+20);
-   showToast(currentWeapon().icon+' '+currentWeapon().name+' freigeschaltet!',2.6)}
-  else{player.energy=Math.min(100,player.energy+32);collectMoney(12,player.x,player.y);showToast('Maximales Arsenal! +12 Münzen',2)}
-  puff(player.x,player.y,'#c3a4ff',20,1.4);tone(currentWeapon().sound,.15,'triangle',.035);return;
+  // Alte gespeicherte Läufe dürfen keine Waffen mehr freischalten.
+  collectMoney(10,player.x,player.y);showToast('🪙 Bonus: +10 Münzen',1.5);
+  puff(player.x,player.y,'#c3a4ff',12,.9);return;
  }
  if(up.kind==='ammo'){collectMoney(6,player.x,player.y);player.energy=Math.min(100,player.energy+20);
   showToast('📦 Bonus-Kiste: +6 Münzen!',1.6);puff(player.x,player.y,'#ffe6a3',13,.9);tone(740,.12,'triangle');return;
@@ -630,7 +712,7 @@ function collectPower(up){up.taken=true;const meta=POWER_DATA[up.kind];
  showToast(meta.icon+' '+meta.name+'! '+meta.info,2.1);tone(1040,.2,'triangle',.035)
 }
 function killEnemy(enemy,rocket=false,byShot=false){enemy.dead=true;defeated++;
- const amount=Math.round((player.effects.double>0?6:3)*(hasPerk('coinboost')?1.25:1));save.wallet+=amount;save.total+=amount;earnedCoins+=amount;gainXP(12);persist();
+ const amount=Math.round((player.effects.double>0?6:3)*(hasPerk('luckycharm')?1.5:1)*(hasPerk('coinboost')?1.25:1)*(hasPerk('coinvault')?1.5:1));save.wallet+=amount;save.total+=amount;earnedCoins+=amount;gainXP(12);persist();
  puff(enemy.x,enemy.y,enemy.color,18,1.35);tone(rocket?1050:byShot?860:690,.13,'square',.024);
  if(!rocket&&!byShot){player.vy=Math.max(player.vy,980);player.y=Math.max(player.y,enemy.y+enemy.r+18)}
 }
@@ -638,12 +720,13 @@ function tryShoot(){
  if(mode!=='playing'||!player||player.shootCooldown>0)return;
  const w=currentWeapon();player.shootCooldown=w.cooldown;
  const x=player.x,y=player.y+24;
- if(w.style==='laser'||w.style==='starlaser'||w.style==='rainbowlaser'||w.style==='prism'){
-  const xs=w.style==='rainbowlaser'?[x-88,x-44,x,x+44,x+88]:w.style==='starlaser'?[x-43,x,x+43]:w.style==='prism'?[x-53,x,x+53]:[x];
-  for(let i=0;i<xs.length;i++)beams.push({x:xs[i],y,age:0,life:w.style==='rainbowlaser'?.34:w.style==='starlaser'?.29:.28,width:w.style==='rainbowlaser'?15:w.style==='starlaser'?22:w.style==='prism'?19:16,color:w.style==='rainbowlaser'?['#ff8fbd','#ffdd76','#89f8ab','#7cf0ff','#c8a2ff'][i]:w.style==='prism'?['#ff89de','#d0a6ff','#7af5ff'][i]:w.color});
-  for(const e of enemies){if(e.dead||e.y<y||e.y>y+800)continue;const hit=xs.some(bx=>Math.abs(e.x-bx)<e.r+(w.style==='starlaser'?18:w.style==='prism'?18:13));if(hit)damageEnemy(e,w.damage,true)}
+ const attackStyle=w.attackStyle||w.style;
+ if(attackStyle==='laser'||attackStyle==='starlaser'||attackStyle==='rainbowlaser'||attackStyle==='prism'){
+  const xs=attackStyle==='rainbowlaser'?[x-88,x-44,x,x+44,x+88]:attackStyle==='starlaser'?[x-43,x,x+43]:attackStyle==='prism'?[x-53,x,x+53]:[x];
+  for(let i=0;i<xs.length;i++)beams.push({x:xs[i],y,age:0,life:attackStyle==='rainbowlaser'?.34:attackStyle==='starlaser'?.29:.28,width:attackStyle==='rainbowlaser'?15:attackStyle==='starlaser'?22:attackStyle==='prism'?19:16,color:attackStyle==='rainbowlaser'?['#ff8fbd','#ffdd76','#89f8ab','#7cf0ff','#c8a2ff'][i]:attackStyle==='prism'?['#ff89de','#d0a6ff','#7af5ff'][i]:w.color});
+  for(const e of enemies){if(e.dead||e.y<y||e.y>y+800)continue;const hit=xs.some(bx=>Math.abs(e.x-bx)<e.r+(attackStyle==='starlaser'?18:attackStyle==='prism'?18:13));if(hit)damageEnemy(e,w.damage,true)}
   puff(x,y+30,w.color,10,.5);
- }else if(w.style==='tesla'){
+ }else if(attackStyle==='tesla'){
   let ox=x,oy=y;const seen=new Set();
   for(let n=0;n<4;n++){
    const eligible=enemies.filter(e=>!e.dead&&!seen.has(e)&&e.y>oy-30&&e.y<oy+350&&Math.abs(e.x-ox)<155);
@@ -652,61 +735,61 @@ function tryShoot(){
   }
   if(!seen.size){beams.push({x,y,x2:x,y2:y+490,age:0,life:.17,width:8,color:w.color})}
   puff(x,y+32,w.color,8,.6);
- }else if(w.style==='pellet'){
+ }else if(attackStyle==='pellet'){
   for(let n=-3;n<=3;n++)addShot(x+n*3,y,n*94,w.speed-rand(0,65),w,1.0);
- }else if(w.style==='plasma'){
+ }else if(attackStyle==='plasma'){
   addShot(x-9,y,-48,w.speed,w);addShot(x+9,y,48,w.speed,w);
- }else if(w.style==='dual'){
+ }else if(attackStyle==='dual'){
   addShot(x-12,y,-16,w.speed,w);addShot(x+12,y,16,w.speed,w);
- }else if(w.style==='ice'){
+ }else if(attackStyle==='ice'){
   for(let n=-1;n<=1;n++)addShot(x+n*6,y,n*70,w.speed,w,1.5);
- }else if(w.style==='fan'){
+ }else if(attackStyle==='fan'){
   for(let n=-2;n<=2;n++)addShot(x+n*4,y,n*95,w.speed,w,1.25);
- }else if(w.style==='triple'){
+ }else if(attackStyle==='triple'){
   for(let n=-1;n<=1;n++)addShot(x+n*13,y,n*57,w.speed,w,2.0,w.damage,'missile');
- }else if(w.style==='meteorstorm'){
+ }else if(attackStyle==='meteorstorm'){
   for(let n=-2;n<=2;n++)addShot(x+n*9,y,n*95,w.speed+rand(-45,50),w,1.6,w.damage,'meteor');
- }else if(w.style==='phoenix'){
+ }else if(attackStyle==='phoenix'){
   for(let n=-1;n<=1;n++)addShot(x+n*8,y,n*77,w.speed,w,1.8,w.damage,'phoenix');
- }else if(w.style==='shock'){
+ }else if(attackStyle==='shock'){
   for(let n=-1;n<=1;n++)addShot(x+n*9,y,n*66,w.speed,w,1.5,w.damage,'shock');
- }else if(w.style==='poison'){
+ }else if(attackStyle==='poison'){
   for(let n=-1;n<=1;n++)addShot(x+n*7,y,n*62,w.speed,w,1.7,w.damage,'poison');
- }else if(w.style==='shrapnel'){
+ }else if(attackStyle==='shrapnel'){
   for(let n=-4;n<=4;n++)addShot(x+n*2,y,n*100,w.speed-rand(0,85),w,1.25,w.damage,'shrapnel');
- }else if(w.style==='gravity'){
+ }else if(attackStyle==='gravity'){
   addShot(x,y,0,w.speed,w,2.0,w.damage,'gravity');
- }else if(w.style==='sun'){
+ }else if(attackStyle==='sun'){
   addShot(x,y,0,w.speed,w,1.75,w.damage,'sun');
- }else if(w.style==='omega'){
+ }else if(attackStyle==='omega'){
   for(let n=-1;n<=1;n++)addShot(x+n*10,y,n*72,w.speed,w,2.1,w.damage,'omega');
- }else if(w.style==='photon'){
+ }else if(attackStyle==='photon'){
   for(let n=-1;n<=1;n++)addShot(x+n*9,y,n*30,w.speed,w,1.7,w.damage,'photon');
- }else if(w.style==='thorn'){
+ }else if(attackStyle==='thorn'){
   for(let n=-2;n<=2;n++){addShot(x+n*4,y,n*78,w.speed,w,1.5,w.damage,'thorn');const b=projectiles[projectiles.length-1];b.pierce=2;b.hitIds=[];}
- }else if(w.style==='sonic'){
+ }else if(attackStyle==='sonic'){
   for(let n=-3;n<=3;n++)addShot(x+n*3,y,n*100,w.speed,w,1.0,w.damage,'sonic');
- }else if(w.style==='chrono'){
+ }else if(attackStyle==='chrono'){
   for(let n=-1;n<=1;n++)addShot(x+n*8,y,n*60,w.speed,w,1.7,w.damage,'chrono');
- }else if(w.style==='dragonfire'){
+ }else if(attackStyle==='dragonfire'){
   for(let n=-2;n<=2;n++)addShot(x+n*7,y,n*82,w.speed-rand(0,70),w,1.35,w.damage,'dragonfire');
- }else if(w.style==='quantum'){
+ }else if(attackStyle==='quantum'){
   for(let n=-1;n<=1;n++)addShot(x+n*13,y,n*72,w.speed,w,1.8,w.damage,'quantum');
- }else if(w.style==='saw'){
+ }else if(attackStyle==='saw'){
   for(let n=-1;n<=1;n++){addShot(x+n*10,y,n*62,w.speed,w,1.7,w.damage,'saw');const b=projectiles[projectiles.length-1];b.pierce=3;b.hitIds=[];}
- }else if(w.style==='blizzard'){
+ }else if(attackStyle==='blizzard'){
   for(let n=-4;n<=4;n++)addShot(x+n*2,y,n*78,w.speed-rand(0,120),w,1.4,w.damage,'blizzard');
- }else if(w.style==='galaxy'){
+ }else if(attackStyle==='galaxy'){
   for(let n=-2;n<=2;n++)addShot(x+n*10,y,n*87,w.speed,w,2.0,w.damage,'galaxy');
- }else if(w.style==='nova'){
+ }else if(attackStyle==='nova'){
   addShot(x,y,0,w.speed,w,1.65);
- }else if(w.style==='bolt'){
+ }else if(attackStyle==='bolt'){
   addShot(x,y,0,w.speed,w,1.7);
- }else if(w.style==='missile'){
+ }else if(attackStyle==='missile'){
   addShot(x,y,0,w.speed,w,1.9);
  }else addShot(x,y,0,w.speed,w,1.6);
- puff(x,y,w.color,w.style==='pellet'||w.style==='meteorstorm'?12:6,.7);
- tone(w.sound,w.style==='missile'||w.style==='meteorstorm'?.14:.07,w.style==='stone'?'triangle':'square',.023)
+ puff(x,y,w.color,attackStyle==='pellet'||attackStyle==='meteorstorm'?12:6,.7);
+ tone(w.sound,attackStyle==='missile'||attackStyle==='meteorstorm'?.14:.07,attackStyle==='stone'?'triangle':'square',.023)
 }
 function hurt(enemy){if(player.invuln>0)return;
  if(player.effects.shield>0){player.effects.shield=0;player.invuln=1.25;showToast('🛡️ Schild hat dich geschützt!',1.6);tone(520,.14,'triangle');}
@@ -757,7 +840,7 @@ function fillPlatforms(limit){
  if(Math.random()<.83)coins.push({x:x+width/2,y:nextY+44,taken:false,phase:rand(0,6.3),value:Math.random()<.17?3:1});
  // Waffen-Kugeln sind jetzt rund 70 % seltener; andere Power-ups bleiben gleich häufig.
  if(nextY>650){const roll=Math.random();let pick=null;
-  if(roll<.038)pick='weapon';            // vorher 0.30 * 0.42 = 12.6 %, jetzt 3.8 % pro Plattform
+  if(roll<.038)pick=null;               // Keine Waffen-Fundstücke: nur durch Kauf freischalten
   else if(roll<.098)pick='energy';       // unverändert: 6 %
   else if(roll<.110)pick='heart';        // unverändert: 1.2 %
   else if(roll<.212)pick=POWER_TYPES[Math.floor(Math.random()*4)];  // unverändert: 10.2 %
@@ -779,8 +862,8 @@ function updateContinueButton(){const b=$('continueRun');if(!b)return;const r=sa
 function saveRunSnapshot(){if(mode!=='playing'&&mode!=='paused')return;try{const data={version:1,runMode,char:save.char,player,camera,topReached,nextY,lastX,score,zoneIndex,earnedCoins,defeated,damageTaken,lastXPMeter,reviveReady,runRecordTarget,recordCrossed,prevBest,time,platforms,coins,powerups,enemies,projectiles,enemyShots,beams};localStorage.setItem(RUN_KEY,JSON.stringify(data));}catch(e){}}
 function clearRunSnapshot(){try{localStorage.removeItem(RUN_KEY)}catch(e){}updateContinueButton()}
 function continueSavedRun(){const r=safeRunSnapshot();if(!r)return;try{
- runMode=r.runMode;selectedMode=runMode;player=r.player;camera=r.camera||0;topReached=r.topReached||FLOOR;nextY=r.nextY||FLOOR;lastX=r.lastX||W/2;score=r.score||0;zoneIndex=r.zoneIndex||0;earnedCoins=r.earnedCoins||0;defeated=r.defeated||0;damageTaken=r.damageTaken||0;lastXPMeter=r.lastXPMeter||0;reviveReady=!!r.reviveReady;runRecordTarget=r.runRecordTarget||0;recordCrossed=!!r.recordCrossed;prevBest=r.prevBest||0;time=r.time||0;
- platforms=r.platforms;coins=r.coins||[];powerups=r.powerups||[];enemies=r.enemies||[];projectiles=r.projectiles||[];enemyShots=r.enemyShots||[];beams=r.beams||[];particles=[];
+ runMode=r.runMode;selectedMode=runMode;player=r.player;player.weaponLevel=Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone'));camera=r.camera||0;topReached=r.topReached||FLOOR;nextY=r.nextY||FLOOR;lastX=r.lastX||W/2;score=r.score||0;zoneIndex=r.zoneIndex||0;earnedCoins=r.earnedCoins||0;defeated=r.defeated||0;damageTaken=r.damageTaken||0;lastXPMeter=r.lastXPMeter||0;reviveReady=!!r.reviveReady;runRecordTarget=r.runRecordTarget||0;recordCrossed=!!r.recordCrossed;prevBest=r.prevBest||0;time=r.time||0;
+ platforms=r.platforms;coins=r.coins||[];powerups=(r.powerups||[]).filter(p=>p.kind!=='weapon');enemies=r.enemies||[];projectiles=r.projectiles||[];enemyShots=r.enemyShots||[];beams=r.beams||[];particles=[];
  mode='playing';shopOpen=false;runEntryPending=false;$('modePicker').hidden=true;$('recordEntry').hidden=true;$('entryConfirmation').hidden=true;$('overlay').hidden=true;$('shopLayer').hidden=true;$('resourcebar').style.display='block';$('pause').style.display='block';$('pause').textContent='Ⅱ';$('toast').hidden=true;
  keys.left=false;keys.right=false;keys.shoot=false;updateButtons();lastRunSavedAt=time;last=performance.now();hud();
  }catch(e){console.warn('Spielstand konnte nicht geladen werden',e);clearRunSnapshot();}}
@@ -788,7 +871,7 @@ $('continueRun').addEventListener('click',continueSavedRun);
 window.addEventListener('pagehide',saveRunSnapshot);
 function begin(){clearRunSnapshot();runMode=selectedMode;lastXPMeter=0;reviveReady=hasPerk('revive');$('modePicker').hidden=true;runEntryPending=false;$('recordEntry').hidden=true;$('entryConfirmation').hidden=true;runRecordTarget=runMode==='hardcore'?save.hardcoreBest:save.best;recordCrossed=false;mode='playing';time=0;camera=0;zoneIndex=0;score=0;earnedCoins=0;defeated=0;damageTaken=0;elapsedSave=0;nextY=FLOOR;lastX=W/2;topReached=FLOOR;particles=[];enemies=[];powerups=[];projectiles=[];enemyShots=[];beams=[];
  platforms=[{x:153,y:FLOOR,w:114,kind:'normal',baseX:153,phase:0,speed:0,range:0,broken:false,boost:false}];coins=[];
- player={x:W/2,y:FLOOR,vx:0,vy:JUMP+skillOf().jump*22,r:18,lives:(runMode==='hardcore'?2:3)+Math.floor(skillOf().armor/3)+(hasPerk('amulet')?1:0),maxLives:(runMode==='hardcore'?4:5)+Math.floor(skillOf().armor/3),invuln:0,weaponLevel:Math.max(WEAPON_IDS.indexOf(save.equippedWeapon),hasPerk('startinggun')?1:0),energy:100,shootCooldown:0,effects:{shield:hasPerk('shieldkit')?24:0,magnet:0,double:0,rocket:0}};player.lives=Math.min(player.lives,player.maxLives);fillPlatforms(1300);
+ player={x:W/2,y:FLOOR,vx:0,vy:JUMP+skillOf().jump*22,r:18,lives:(runMode==='hardcore'?2:3)+Math.floor(skillOf().armor/3)+(hasPerk('amulet')?1:0)+(hasPerk('superarmor')?2:0)+(hasPerk('lifecore')?1:0),maxLives:(runMode==='hardcore'?4:5)+Math.floor(skillOf().armor/3)+(hasPerk('superarmor')?2:0),invuln:0,weaponLevel:Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone')),energy:100,shootCooldown:0,effects:{shield:hasPerk('energyshell')?36:hasPerk('shieldkit')?24:0,magnet:hasPerk('goldmagnet')?20:0,double:0,rocket:0}};player.lives=Math.min(player.lives,player.maxLives);fillPlatforms(1300);
  $('overlay').hidden=true;$('resourcebar').style.display='block';$('pause').style.display='block';$('pause').textContent='Ⅱ';$('toast').hidden=true;
  keys.left=false;keys.right=false;keys.shoot=false;updateButtons();hud();tone(630,.08);
 }
@@ -946,7 +1029,7 @@ for(const coin of coins){if(coin.taken)continue;
  coins=coins.filter(c=>c.y>camera-110&&!c.taken);
  particles=particles.filter(p=>p.age<p.life);for(const p of particles){p.age+=dt;p.vy-=280*dt;p.x+=p.vx*dt;p.y+=p.vy*dt}
  // Decorative sparkle trails do not affect gameplay.
- if(save.equip.trail&&Math.random()<dt*28){const t=save.equip.trail;const palettes={glitter:['#fff0a0','#ffffff','#ffd663'],rainbow:['#ff7ba2','#ffe77a','#63dbfa','#9ef6bd'],cosmos:['#e6a1ff','#68deff','#faf6ff'],flames:['#ff5e37','#ffc252','#ff9836'],bubbles:['#efffff','#7ee9ff','#b3bdff'],pixel:['#9ffa8e','#ed81ff','#a8e0ff'],aurora:['#8df6ff','#9efab2','#ffd7ff','#8ca4ff'],voidtrail:['#232040','#51417a','#9e8cff'],diamonddust:['#e8ffff','#c2f5ff','#8cd8ff'],lightningtrail:['#fff4a4','#ffe14e','#92f3ff'],embertrail:['#ffa061','#ffe06d','#fc605a'],goldtrail:['#fff3bc','#ffce54','#fffefa'],shadowtrail:['#29254e','#a381d6','#4c376e'],novatrail:['#ff9cf5','#9ee9ff','#ffffff']};const cols=palettes[t];
+ if(save.equip.trail&&Math.random()<dt*28){const selectedTrail=save.equip.trail;const t=ITEMS.find(it=>it.id===selectedTrail)?.visual||selectedTrail;const palettes={glitter:['#fff0a0','#ffffff','#ffd663'],rainbow:['#ff7ba2','#ffe77a','#63dbfa','#9ef6bd'],cosmos:['#e6a1ff','#68deff','#faf6ff'],flames:['#ff5e37','#ffc252','#ff9836'],bubbles:['#efffff','#7ee9ff','#b3bdff'],pixel:['#9ffa8e','#ed81ff','#a8e0ff'],aurora:['#8df6ff','#9efab2','#ffd7ff','#8ca4ff'],voidtrail:['#232040','#51417a','#9e8cff'],diamonddust:['#e8ffff','#c2f5ff','#8cd8ff'],lightningtrail:['#fff4a4','#ffe14e','#92f3ff'],embertrail:['#ffa061','#ffe06d','#fc605a'],goldtrail:['#fff3bc','#ffce54','#fffefa'],shadowtrail:['#29254e','#a381d6','#4c376e'],novatrail:['#ff9cf5','#9ee9ff','#ffffff'],comettrail:['#ffba77','#ffe6a7','#fff9de'],moontrail:['#d7e7ff','#a2c6ff','#ffffff'],eternitytrail:['#b794ff','#9affef','#fff0a0']};const cols=palettes[t];
  if(cols){const p={x:player.x+rand(-12,12),y:player.y-rand(2,20),vx:rand(-26,26),vy:rand(-80,-20),r:rand(2,4),life:rand(.35,.7),age:0,color:cols[Math.floor(Math.random()*cols.length)]};particles.push(p)}}
  hud();if(player.y<camera-95)gameOver();
 }
@@ -1005,6 +1088,7 @@ function drawPlatform(p){let y=sy(p.y);if(y<-60||y>H+55||p.broken)return;const z
 function drawCoins(){for(const coin of coins){const y=sy(coin.y)+Math.sin(time*4+coin.phase)*5;if(y<-35||y>H+30)continue;ctx.save();ctx.translate(coin.x,y);ctx.rotate(Math.sin(time*2+coin.phase)*.2);ctx.scale(.72+.28*Math.abs(Math.cos(time*2.5+coin.phase)),1);
  ctx.shadowBlur=18;ctx.shadowColor='#ffce54';ctx.fillStyle=coin.value===3?'#ffe797':'#ffc64d';ctx.beginPath();ctx.arc(0,0,coin.value===3?14:11,0,6.283);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#fff8c9';ctx.lineWidth=2.5;ctx.stroke();ctx.fillStyle='#ffffff66';ctx.beginPath();ctx.arc(-3,-4,coin.value===3?4:3,0,6.283);ctx.fill();ctx.fillStyle='#d88826';ctx.font='900 13px system-ui';ctx.textBaseline='middle';ctx.textAlign='center';ctx.fillText(coin.value===3?'3':'★',0,0);ctx.restore()}}
 function character(c,cx,cy,size=1,charID=save.char,eq=save.equip,vy=0,vx=0){
+ const visualEquip={...eq};for(const slot of ['head','face','back']){const match=ITEMS.find(it=>it.id===visualEquip[slot]);if(match?.visual)visualEquip[slot]=match.visual;}eq=visualEquip;
  const def=CHARACTERS.find(q=>q.id===charID)||CHARACTERS[0];c.save();c.translate(cx,cy);c.scale(size,size);c.rotate(clamp(vx/1500,-.16,.16));
  const moving=vy>30;c.scale(moving?.94:1.04,moving?1.05:.96);
  // Back accessories and character-specific silhouettes.
@@ -1255,20 +1339,23 @@ function refreshShop(){
  const def=CHARACTERS.find(c=>c.id===save.char);$('previewName').textContent=def.name;
  $('previewDesc').textContent=shopTab==='figures'?'Level '+levelOf()+' · Besthöhe '+save.best.toLocaleString('de-DE')+' m':shopTab==='items'?'Kosmetische Accessoires – auch legendäre':shopTab==='weapons'?'Aktuelle Waffe: '+WEAPONS[WEAPON_IDS.indexOf(save.equippedWeapon)].name+' · Stufe '+(save.weaponLevels[save.equippedWeapon]||1):'XP und Skillpunkte gehören deiner ausgewählten Figur.';
  if(shopTab==='figures'){
- for(const ch of CHARACTERS){const unlocked=save.best>=ch.at,sel=save.char===ch.id;
- const state=sel?{text:'✓ AUSGEWÄHLT',disabled:true,color:'equipped'}:unlocked?{text:'AUSWÄHLEN',color:'available'}:{text:'🔒 '+ch.at.toLocaleString('de-DE')+' m',disabled:true};
- g.appendChild(cardButton(ch.name,unlocked?'Level '+levelOf(ch.id)+' · '+(save.charXP[ch.id]||0)+' XP':(ch.at-save.best)+' m bis zur Freischaltung',ch.emoji,state,()=>{
- if(save.best<ch.at)return;save.char=ch.id;persist();refreshShop();refreshHero();hud();tone(750,.12,'triangle')},sel,!unlocked));
+ for(const ch of CHARACTERS){const heightOk=save.best>=ch.at,owned=!ch.price||save.characterOwned.includes(ch.id),sel=save.char===ch.id;
+ const state=sel?{text:'✓ AUSGEWÄHLT',disabled:true,color:'equipped'}:!heightOk?{text:'🔒 '+ch.at.toLocaleString('de-DE')+' m',disabled:true}:!owned?{text:'● '+ch.price.toLocaleString('de-DE')+' KAUFEN',disabled:save.wallet<ch.price}: {text:'AUSWÄHLEN',color:'available'};
+ g.appendChild(cardButton(ch.name,ch.price&&!owned?'Exklusiv · '+ch.at.toLocaleString('de-DE')+' m + '+ch.price.toLocaleString('de-DE')+' Münzen':heightOk?'Level '+levelOf(ch.id)+' · '+(save.charXP[ch.id]||0)+' XP':(ch.at-save.best)+' m bis zur Freischaltung',ch.emoji,state,()=>{
+ if(save.best<ch.at)return;
+ if(ch.price&&!save.characterOwned.includes(ch.id)){if(save.wallet<ch.price)return;save.wallet-=ch.price;save.characterOwned.push(ch.id)}
+ save.char=ch.id;persist();refreshShop();refreshHero();hud();tone(750,.12,'triangle')},sel,!heightOk));
  }
  }else if(shopTab==='weapons'){
  const notice=document.createElement('div');notice.className='weapon-summary';notice.innerHTML='<strong>⚔️ Arsenal: '+WEAPONS.length+' Waffen · Unendlich Munition</strong><div>🪙 Münzen aus Läufen einsetzen · bis Stufe 5 verbessern.<br>✨ Schaden, Schusstempo und Reichweite werden besser.<br>🔒 Gekaufte Waffen und Upgrades bleiben gespeichert.</div>';g.appendChild(notice);
  for(let i=0;i<WEAPONS.length;i++){
   const w=WEAPONS[i],owned=save.weaponOwned.includes(w.style),selected=save.equippedWeapon===w.style,lv=weaponUpgradeLevel(i),buyPrice=weaponBuyCost(i);
-  const meta='Schaden '+(w.damage*(1+(lv-1)*.22)).toFixed(1)+' · '+(60/(Math.max(.105,w.cooldown*(1-(lv-1)*.055)))).toFixed(0)+' Angriffe/min';
-  const primary=selected?{text:'✓ AUSGERÜSTET',disabled:true,color:'equipped'}:owned?{text:'AUSRÜSTEN',color:'available'}:save.wallet>=buyPrice?{text:'● '+buyPrice.toLocaleString('de-DE')+' KAUFEN'}:{text:'● '+buyPrice.toLocaleString('de-DE')+' · ZU WENIG',disabled:true};
+  const required=weaponRequiredLevel(i),levelOk=levelOf()>=required;
+  const meta=(required>1?'Ab Level '+required+' · ':'')+'Schaden '+(w.damage*(1+(lv-1)*.22)).toFixed(1)+' · '+(60/(Math.max(.105,w.cooldown*(1-(lv-1)*.055)))).toFixed(0)+' Angriffe/min';
+  const primary=selected?{text:'✓ AUSGERÜSTET',disabled:true,color:'equipped'}:owned?{text:'AUSRÜSTEN',color:'available'}:!levelOk?{text:'🔒 LEVEL '+required,disabled:true}:save.wallet>=buyPrice?{text:'● '+buyPrice.toLocaleString('de-DE')+' KAUFEN'}:{text:'● '+buyPrice.toLocaleString('de-DE')+' · ZU WENIG',disabled:true};
   const card=cardButton(w.name,meta,w.icon,primary,()=>{
     if(!save.weaponOwned.includes(w.style)){
-      if(save.wallet<buyPrice)return;save.wallet-=buyPrice;save.weaponOwned.push(w.style);
+      if(save.wallet<buyPrice||levelOf()<weaponRequiredLevel(i))return;save.wallet-=buyPrice;save.weaponOwned.push(w.style);
     }
     save.equippedWeapon=w.style;
     if(player&&mode==='paused')player.weaponLevel=i;
@@ -1296,7 +1383,7 @@ function refreshShop(){
  for(const sk of [{id:'attack',name:'Angriff',emoji:'⚔️',desc:'Mehr Schaden pro Schuss'},{id:'jump',name:'Sprungkraft',emoji:'🪽',desc:'Höher springen'},{id:'armor',name:'Rüstung',emoji:'🛡️',desc:'Mehr Herzen & stärkere Energie'}]){
  const val=skillOf()[sk.id];g.append(cardButton(sk.name+' · '+val,sk.desc,sk.emoji,pointsOf()>0?{text:'+1 VERBESSERN',color:'available'}:{text:'KEINE SKILLPUNKTE',disabled:true},()=>{if(pointsOf()<1)return;if(!save.charSkills[save.char])save.charSkills[save.char]={attack:0,jump:0,armor:0};save.charSkills[save.char][sk.id]++;persist();refreshShop();hud();tone(1100,.17,'triangle')}));}
  }else if(shopTab==='perks'){
- for(const it of PERKS){const owned=hasPerk(it.id),canBuy=save.wallet>=it.price;
+ for(const it of PERKS){const owned=hasPerk(it.id),canBuy=save.wallet>=it.price,levelOk=levelOf()>=(it.minLevel||1);
   if(it.id==='autofire'){
    const state=owned?{text:save.autoFireEnabled?'🔥 AUTO AN · AUSSCHALTEN':'🔥 AUTO AUS · EINSCHALTEN',color:save.autoFireEnabled?'equipped':'available'}:canBuy?{text:'● '+it.price.toLocaleString('de-DE')+' KAUFEN'}:{text:'● '+it.price.toLocaleString('de-DE')+' · ZU WENIG',disabled:true};
    const card=cardButton(it.name,owned?'Dauerhaft gekauft · Automatisch schießen ein-/ausschalten':it.info+' · '+it.price.toLocaleString('de-DE')+' Münzen',it.emoji,state,()=>{
@@ -1305,7 +1392,7 @@ function refreshShop(){
     persist();refreshShop();hud();tone(save.autoFireEnabled?1000:480,.14,'triangle');
    },owned);card.classList.add('legendary');g.append(card);
   }else{
-   g.append(cardButton(it.name,it.info,it.emoji,owned?{text:'✓ DAUERHAFT AKTIV',disabled:true,color:'equipped'}:canBuy?{text:'● '+it.price+' KAUFEN'}:{text:'● '+it.price+' · ZU WENIG',disabled:true},()=>{if(hasPerk(it.id)||save.wallet<it.price)return;save.wallet-=it.price;save.perks.push(it.id);persist();refreshShop();hud();tone(950,.13,'triangle')},owned));
+   g.append(cardButton(it.name,it.info,it.emoji,owned?{text:'✓ DAUERHAFT AKTIV',disabled:true,color:'equipped'}:!levelOk?{text:'🔒 LEVEL '+it.minLevel,disabled:true}:canBuy?{text:'● '+it.price+' KAUFEN'}:{text:'● '+it.price+' · ZU WENIG',disabled:true},()=>{if(hasPerk(it.id)||save.wallet<it.price||levelOf()<(it.minLevel||1))return;save.wallet-=it.price;save.perks.push(it.id);persist();refreshShop();hud();tone(950,.13,'triangle')},owned));
   }
  }
  }else{
@@ -1314,10 +1401,10 @@ function refreshShop(){
  g.appendChild(section(SLOT_NAMES[slot]));const empty=save.equip[slot]===null;
  g.appendChild(cardButton(({head:'Ohne Kopfschmuck',face:'Ohne Brille',back:'Ohne Rücken-Extra',trail:'Ohne Sprungspur'})[slot],empty?'Gerade ausgerüstet':'Accessoire ablegen','⭕',empty?{text:'✓ AUSGEWÄHLT',disabled:true,color:'equipped'}:{text:'ABLEGEN',color:'available'},()=>{save.equip[slot]=null;persist();refreshShop();refreshHero()},empty));
  for(const it of ITEMS.filter(item=>item.slot===slot)){
- const owned=save.owned.includes(it.id),selected=save.equip[slot]===it.id,canPay=save.wallet>=it.price;
- const state=selected?{text:'✓ AUSGERÜSTET',disabled:true,color:'equipped'}:owned?{text:'ANLEGEN',color:'available'}:canPay?{text:'● '+it.price+' KAUFEN'}:{text:'● '+it.price+' · ZU WENIG',disabled:true};
- const card=cardButton(it.name,owned?'Gekauft · '+SLOT_NAMES[slot]:it.price+' Münzen · '+SLOT_NAMES[slot],it.emoji,state,()=>{
- if(!save.owned.includes(it.id)){if(save.wallet<it.price)return;save.wallet-=it.price;save.owned.push(it.id)}
+ const owned=save.owned.includes(it.id),selected=save.equip[slot]===it.id,canPay=save.wallet>=it.price,levelOk=levelOf()>=(it.minLevel||1);
+ const state=selected?{text:'✓ AUSGERÜSTET',disabled:true,color:'equipped'}:owned?{text:'ANLEGEN',color:'available'}:!levelOk?{text:'🔒 LEVEL '+it.minLevel,disabled:true}:canPay?{text:'● '+it.price+' KAUFEN'}:{text:'● '+it.price+' · ZU WENIG',disabled:true};
+ const card=cardButton(it.name,owned?'Gekauft · '+SLOT_NAMES[slot]:it.price.toLocaleString('de-DE')+' Münzen · '+SLOT_NAMES[slot]+(it.minLevel?' · ab Level '+it.minLevel:''),it.emoji,state,()=>{
+ if(!save.owned.includes(it.id)){if(save.wallet<it.price||levelOf()<(it.minLevel||1))return;save.wallet-=it.price;save.owned.push(it.id)}
  save.equip[slot]=it.id;persist();hud();refreshShop();refreshHero();tone(760,.15,'triangle')
  },selected);if(it.price>=470)card.classList.add('legendary');g.appendChild(card);
  }
@@ -1445,7 +1532,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.2.0';
+const SPACEJUMPER_VERSION='2.6.1';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){

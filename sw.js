@@ -1,5 +1,5 @@
-/* SpaceJumper v2.2.0 – updated web-app cache; never clears local game saves. */
-const CACHE='spacejumper-v2.2.0';
+/* SpaceJumper v2.6.1 – updated web-app cache; never clears local game saves. */
+const CACHE='spacejumper-v2.6.1';
 const ASSETS=['./index.html','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(ASSETS.map(p=>cache.add(p)))).then(()=>self.skipWaiting()));
