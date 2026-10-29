@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.1.0">
-<title>SpaceJumper v2.1.0 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.2.0">
+<title>SpaceJumper v2.2.0 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -151,6 +151,25 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
 .update-notice button{padding:7px 8px;border:0;border-radius:9px;font:900 11px ui-rounded,'Trebuchet MS',system-ui,sans-serif;cursor:pointer;background:#2858a0;color:#fff;min-width:99px}
 #updateLater{background:#e6d4a9;color:#594a2f}
 @media(max-width:360px){.update-notice{gap:6px;padding:9px}.update-notice button{min-width:82px;font-size:10px}}
+
+/* Save-data export/import: separate from gameplay and browser-local saves. */
+.backupLaunch{margin-top:9px;background:linear-gradient(180deg,#d8f7ef,#adede0);border:2px solid #8bcac0;color:#155766;font-size:14px;font-weight:1000;min-height:40px;box-shadow:0 2px 0 #7bbab0}
+.backupLayer{position:absolute;inset:0;z-index:20;background:#061a42ee;backdrop-filter:blur(9px);display:flex;align-items:center;justify-content:center;padding:12px}
+.backupLayer[hidden]{display:none!important}
+.backupPanel{display:flex;flex-direction:column;width:100%;max-width:390px;max-height:calc(100% - 8px);overflow-y:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(#fff,#eaf5ff);color:#1e3864;border:2px solid #fff;border-radius:23px;padding:16px;box-shadow:0 14px 40px #0008}
+.backupHeader{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.backupHeader h2{font-size:20px;line-height:1.1;margin:0}
+.backupPanel p{font-size:12px;font-weight:750;color:#546b8d;line-height:1.35;margin:8px 0 10px}
+.backupSummary{padding:9px 10px;background:#dcefff;border-radius:12px;color:#23446b;font-size:12px;font-weight:850;margin-bottom:9px}
+.backupActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
+.backupActions button{min-width:0;padding:10px 7px;border:0;border-radius:10px;background:#285ca7;color:#fff;font:900 12px ui-rounded,'Trebuchet MS',system-ui,sans-serif;cursor:pointer}
+.backupActions button.secondaryBackup{background:#d6e9ff;color:#214b81;border:1px solid #b4d0f0}
+.backupPanel textarea{width:100%;min-height:76px;max-height:100px;resize:vertical;background:#f9fcff;border:2px solid #bdd5f0;border-radius:10px;font:12px/1.45 ui-monospace,monospace;color:#293e59;padding:8px;overflow:auto;user-select:text;-webkit-user-select:text}
+.backupPanel textarea:focus{outline:2px solid #79b4ff}
+.backupStatus{color:#224a7a;font-size:12px;line-height:1.35;font-weight:850;min-height:20px;margin-top:6px;white-space:pre-line}
+.backupWarn{background:#fff2cd;color:#7a511d;padding:8px 10px;border-radius:10px;font-weight:850;font-size:11px;line-height:1.35;margin:7px 0 10px}
+.backupHelp{font-size:11px!important;margin-top:0!important}
+@media(max-height:675px){.backupPanel{padding:12px}.backupPanel p{margin:6px 0}.backupActions button{padding:8px 5px}.backupPanel textarea{min-height:58px}.backupSummary{margin-bottom:6px}}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -164,7 +183,7 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.1.0</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.2.0</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -202,7 +221,8 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
       <button class="btn action" id="start" type="button">▶ LOSHÜPFEN</button>
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
-      <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.1.0</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+      <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.2.0</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -215,7 +235,30 @@ h1{font-size:clamp(32px,8vw,42px);margin:0 0 10px;line-height:.99;letter-spacing
       </div>
       <div class="previewbar"><canvas id="preview" width="100" height="112" aria-label="Vorschau deiner Figur"></canvas><div><div class="pvtitle" id="previewName">Sunny</div><div class="pvsub" id="previewDesc">Neue Figuren schaltest du mit Höhenrekorden frei.</div></div></div>
       <div class="shopscroll" id="shopScroll"><div class="shopgrid" id="shopGrid"></div></div>
-      <div class="shopfoot" id="shopFoot">Waffen, Upgrades, Figuren und Käufe werden dauerhaft lokal gespeichert.</div>
+      <div class="shopfoot" id="shopFoot">Waffen und Käufe bleiben lokal gespeichert. <button id="shopBackup" type="button" class="shopBackup" style="cursor:pointer;border:1px solid #aac8e7;border-radius:9px;background:#fff;padding:6px 9px;color:#265793;font-weight:1000;">💾 Backup</button></div>
+    </div>
+  </section>
+  <section class="backupLayer" id="backupLayer" hidden aria-label="Spielstand sichern oder wiederherstellen">
+    <div class="backupPanel" role="dialog" aria-modal="true" aria-labelledby="backupTitle">
+      <div class="backupHeader"><h2 id="backupTitle">💾 Spielstand-Backup</h2><button class="close" id="closeBackup" type="button" aria-label="Backup schließen">✕</button></div>
+      <p>Sichere deine Münzen, Waffen, Level, Accessoires, Rekorde und auch einen laufenden Spielstand. Speichere die Datei außerhalb der App, z. B. in „Dateien“ oder iCloud Drive.</p>
+      <div id="backupSummary" class="backupSummary">Aktueller Spielstand</div>
+      <div class="backupActions">
+        <button id="exportBackup" type="button">⬇ Backup-Datei</button>
+        <button id="shareBackup" type="button">↗ Auf iPhone teilen</button>
+        <button id="copyBackup" class="secondaryBackup" type="button">📋 Code kopieren</button>
+        <button id="chooseBackup" class="secondaryBackup" type="button">⬆ Datei importieren</button>
+      </div>
+      <input type="file" id="backupFile" accept=".json,application/json,text/plain" hidden>
+      <label for="backupCode" style="font-size:12px;font-weight:900">Backup-Code (alternativ kopieren oder einfügen)</label>
+      <textarea id="backupCode" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Backup-Code hier einfügen. Zum Exportieren zuerst auf „Code kopieren“ tippen."></textarea>
+      <div class="backupActions" style="margin:8px 0 0">
+        <button id="restoreBackupCode" type="button">✓ Code wiederherstellen</button>
+        <button id="clearBackupCode" type="button" class="secondaryBackup">Feld leeren</button>
+      </div>
+      <div class="backupWarn">⚠ Beim Wiederherstellen werden die aktuellen Daten auf diesem Gerät ersetzt. Vorher gegebenenfalls selbst ein Backup erstellen.</div>
+      <div id="backupStatus" class="backupStatus" role="status" aria-live="polite"></div>
+      <p class="backupHelp">Das Backup wird nicht automatisch mit GitHub synchronisiert. Bewahre deine Datei oder den kopierten Code sicher auf. Ein bereits gelöschter Spielstand lässt sich damit nicht nachträglich zurückholen.</p>
     </div>
   </section>
 </main>
@@ -1283,8 +1326,126 @@ function refreshShop(){
  drawPreview();hud();
 }
 
+// Lokales Backup: keine Server-Uploads, keine Datenänderung beim Export.
+const BACKUP_FORMAT='SpaceJumper-Backup';
+const BACKUP_VERSION=1;
+function backupStatus(message){$('backupStatus').textContent=message;}
+function openBackupPanel(){
+ const summary=$('backupSummary');
+ summary.textContent='● '+save.wallet.toLocaleString('de-DE')+' Münzen · ⭐ Level '+levelOf()+' · 🏆 '+save.best.toLocaleString('de-DE')+' m · '+save.weaponOwned.length+' Waffen';
+ $('backupLayer').hidden=false;backupStatus('');
+}
+function closeBackupPanel(){$('backupLayer').hidden=true;}
+function makeBackupObject(){
+ // Unmittelbar vor der Sicherung den laufenden Spielstand aufnehmen.
+ persist();
+ if(mode==='playing'||mode==='paused')saveRunSnapshot();
+ let currentSave;
+ try{currentSave=JSON.parse(localStorage.getItem(KEY))||JSON.parse(JSON.stringify(save));}
+ catch(e){currentSave=JSON.parse(JSON.stringify(save));}
+ return {format:BACKUP_FORMAT,backupVersion:BACKUP_VERSION,gameVersion:SPACEJUMPER_VERSION,
+  createdAt:new Date().toISOString(),save:currentSave,activeRun:safeRunSnapshot()};
+}
+function backupAsText(){return JSON.stringify(makeBackupObject());}
+function backupAsFile(){
+ const content=backupAsText(),fileName='SpaceJumper-Backup-'+new Date().toISOString().slice(0,10)+'.json';
+ return new File([content],fileName,{type:'application/json'});
+}
+function downloadBackupFile(){
+ try{
+  const file=backupAsFile(),url=URL.createObjectURL(file),link=document.createElement('a');
+  link.href=url;link.download=file.name;document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),8000);
+  backupStatus('Backup-Datei angeboten. Bitte in „Dateien“ oder iCloud Drive aufbewahren. Falls kein Download erscheint: „Auf iPhone teilen“ oder „Code kopieren“ nutzen.');
+ }catch(e){backupStatus('Datei konnte nicht erstellt werden: '+e.message+' · Nutze „Code kopieren“.');}
+}
+async function shareBackupFile(){
+ try{
+  const file=backupAsFile();
+  if(!navigator.share||!navigator.canShare||!navigator.canShare({files:[file]})){
+   backupStatus('Dateifreigabe nicht verfügbar. Nutze „Backup-Datei“ oder „Code kopieren“.');return;
+  }
+  await navigator.share({files:[file],title:'SpaceJumper-Spielstand',text:'Meine SpaceJumper-Sicherung'});
+  backupStatus('Backup geteilt. Prüfe, ob du es wirklich in „Dateien“ oder iCloud Drive gespeichert hast.');
+ }catch(e){if(e.name!=='AbortError')backupStatus('Teilen fehlgeschlagen. Versuche „Backup-Datei“ oder „Code kopieren“.');}
+}
+async function copyBackupCode(){
+ try{
+  const code=backupAsText();$('backupCode').value=code;
+  try{
+   if(!navigator.clipboard?.writeText)throw Error('Clipboard API nicht verfügbar');
+   await navigator.clipboard.writeText(code);
+   backupStatus('Backup-Code kopiert. Füge ihn außerhalb der App in eine Notiz oder Textdatei ein und sichere ihn dort.');
+  }catch(e){
+   const area=$('backupCode');area.focus();area.select();
+   const copied=document.execCommand?.('copy');
+   backupStatus(copied?'Backup-Code kopiert. Außerhalb der App sichern.':'Backup-Code steht im Textfeld. Lange drücken → Alles auswählen → Kopieren.');
+  }
+ }catch(e){backupStatus('Kopieren fehlgeschlagen: '+e.message);}
+}
+function readBackupText(text){
+ if(typeof text!=='string'||text.length>4000000)throw Error('Datei ist leer oder zu groß (max. 4 MB).');
+ let data;
+ try{data=JSON.parse(text.replace(/^\uFEFF/,''));}catch(e){throw Error('Das ist kein gültiger JSON-Backup-Code.');}
+ if(!data||data.format!==BACKUP_FORMAT||data.backupVersion!==BACKUP_VERSION)
+  throw Error('Datei ist keine SpaceJumper-Backup-Datei (Version 1).');
+ const saved=data.save;
+ if(!saved||typeof saved!=='object'||Array.isArray(saved)||!Number.isFinite(Number(saved.wallet))||!Number.isFinite(Number(saved.best))||!Array.isArray(saved.weaponOwned)||!Array.isArray(saved.owned))
+  throw Error('Im Backup fehlen notwendige Spielstanddaten.');
+ if(data.activeRun!==null&&data.activeRun!==undefined){
+  const r=data.activeRun;
+  if(!r||r.version!==1||!r.player||!Array.isArray(r.platforms)||!r.platforms.length||!['normal','hardcore'].includes(r.runMode))
+   throw Error('Der gespeicherte Lauf in der Datei ist ungültig.');
+ }
+ return data;
+}
+function restoreBackupText(text){
+ try{
+  const incoming=readBackupText(text);
+  const date=(incoming.createdAt||'unbekannt').slice(0,10);
+  const info='Sicherung vom '+date+' mit '+Number(incoming.save.wallet).toLocaleString('de-DE')+' Münzen und '+Number(incoming.save.best).toLocaleString('de-DE')+' m Rekord.\n\nDer aktuelle Spielstand auf diesem Gerät wird ÜBERSCHRIEBEN. Fortfahren?';
+  if(!window.confirm(info)){backupStatus('Wiederherstellung abgebrochen. Deine bisherigen Daten bleiben erhalten.');return false;}
+  const oldSave=localStorage.getItem(KEY),oldRun=localStorage.getItem(RUN_KEY),oldBest=localStorage.getItem('hoehenrausch_best_v1');
+  try{
+   localStorage.setItem(KEY,JSON.stringify(incoming.save));
+   if(incoming.activeRun)localStorage.setItem(RUN_KEY,JSON.stringify(incoming.activeRun));
+   else localStorage.removeItem(RUN_KEY);
+   // Den bisherigen Rekordschlüssel anpassen, sonst würde ein alter Wert den importierten Spielstand überschreiben.
+   localStorage.setItem('hoehenrausch_best_v1',String(Math.max(0,Number(incoming.save.best)||0)));
+  }catch(e){
+   try{
+    if(oldSave===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,oldSave);
+    if(oldRun===null)localStorage.removeItem(RUN_KEY);else localStorage.setItem(RUN_KEY,oldRun);
+    if(oldBest===null)localStorage.removeItem('hoehenrausch_best_v1');else localStorage.setItem('hoehenrausch_best_v1',oldBest);
+   }catch(_){}
+   throw Error('Speichern fehlgeschlagen. Prüfe freien Speicher und Website-Daten: '+e.message);
+  }
+  // Schützen vor pagehide: nicht das alte Spiel erneut in den importierten Speicher schreiben.
+  mode='menu';shopOpen=false;
+  backupStatus('Backup erfolgreich geladen. SpaceJumper startet mit deinen wiederhergestellten Daten neu.');
+  location.reload();
+  return true;
+ }catch(e){backupStatus('Wiederherstellung nicht möglich: '+e.message);return false;}
+}
+$('openBackup').addEventListener('click',openBackupPanel);
+$('shopBackup').addEventListener('click',openBackupPanel);
+$('closeBackup').addEventListener('click',closeBackupPanel);
+$('exportBackup').addEventListener('click',downloadBackupFile);
+$('shareBackup').addEventListener('click',shareBackupFile);
+$('copyBackup').addEventListener('click',copyBackupCode);
+$('chooseBackup').addEventListener('click',()=>$('backupFile').click());
+$('backupFile').addEventListener('change',async event=>{
+ const file=event.target.files?.[0];if(!file)return;
+ try{if(file.size>4000000)throw Error('Datei ist zu groß (max. 4 MB).');restoreBackupText(await file.text());}
+ catch(e){backupStatus('Datei konnte nicht gelesen werden: '+e.message);}
+ finally{event.target.value='';}
+});
+$('restoreBackupCode').addEventListener('click',()=>restoreBackupText($('backupCode').value.trim()));
+$('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';backupStatus('Eingabefeld geleert.');});
+$('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
+
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.1.0';
+const SPACEJUMPER_VERSION='2.2.0';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
