@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.6.10">
-<title>SpaceJumper v2.6.10 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.8.0">
+<title>SpaceJumper v2.8.0 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -187,7 +187,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 @media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
 
 
-/* v2.6.10: one authoritative mobile layout. Do not constrain the parent body
+/* v2.8.0: one authoritative mobile layout. Do not constrain the parent body
    to the visual viewport when iOS paints the bottom home-indicator region. */
 @media (max-width:600px){
   html, body {width:100%; margin:0!important; padding:0!important; min-height:0!important}
@@ -215,7 +215,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 #sjFullscreenDebug.visible {display:block}
 #sjFullscreenDebug button{font:800 12px system-ui;margin-top:8px;padding:7px 12px}
 
-/* v2.6.10: iPhone 15 Pro – lesbare Kopfzeile und harmonischer unterer Abschluss.
+/* v2.8.0: iPhone 15 Pro – lesbare Kopfzeile und harmonischer unterer Abschluss.
    Kein weiterer Eingriff in Spiellogik, Bewegungen oder Speicherschluessel. */
 @media(max-width:600px){
   :root{--sj-top-safe:max(53px,env(safe-area-inset-top,0px))}
@@ -236,6 +236,56 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   .pause{top:calc(101px + var(--sj-top-safe))!important}
   .autofireToggle{top:calc(225px + var(--sj-top-safe))!important}
 }
+
+/* v2.8.0 – scrollbare lebenslange Karriere-Statistik, iPhone-sicher */
+.statsLayer{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;padding:14px;background:#081b46e6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.statsLayer[hidden]{display:none!important}
+.statsPanel{width:100%;max-width:385px;max-height:calc(100% - 10px);overflow:hidden;display:flex;flex-direction:column;border:2px solid #fff;border-radius:24px;background:linear-gradient(165deg,#fafdff,#e0efff);color:#17376b;box-shadow:0 15px 45px #071637aa}
+.statsHead{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:17px 16px 10px;border-bottom:1px solid #c5defb;flex-shrink:0}
+.statsHead h2{margin:0;font-size:22px;line-height:1.12;letter-spacing:-.6px}.statsHead p{margin:5px 0 0;color:#607ca1;font-size:11px;font-weight:800}
+.statsScroll{padding:13px 14px 19px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.statsHero{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 12px}
+.statsHero>div{padding:13px 9px;border-radius:15px;text-align:center;background:linear-gradient(140deg,#214981,#386bb6);color:white;box-shadow:inset 0 1px #ffffff66,0 3px 12px #16446c35}
+.statsHero b{display:block;font-size:22px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.2}.statsHero span{display:block;font-size:11px;font-weight:900;margin-top:3px;color:#e0efff}
+.statsSection{font-weight:1000;font-size:12px;letter-spacing:.4px;color:#3a6090;text-transform:uppercase;margin:13px 1px 7px}
+.statsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.statsTile{border:1px solid #c9e0f9;border-radius:13px;background:#fff;padding:10px 9px;min-width:0;box-shadow:0 2px 7px #8cb7e820}
+.statsTile span{font-size:10px;color:#57759b;font-weight:900;display:block;min-height:24px;line-height:1.2}.statsTile strong{display:block;font-size:17px;color:#1a427f;margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.statsFoot{font-size:11px;line-height:1.5;color:#5f779a;background:#eaf3ff;border-radius:12px;padding:10px 12px;margin:15px 0 0}
+@media(max-width:360px){.statsHead h2{font-size:19px}.statsHero b{font-size:19px}.statsTile strong{font-size:15px}}
+
+/* v2.8.0: Pickup-Meldungen auf iPhone und Desktop wieder gut lesbar.
+   Oberhalb der Spielwelt, aber unter der Notch und den Höhen-/Rekordanzeigen. */
+.toast{
+  top:112px;
+  width:min(310px,calc(100% - 28px));max-width:none;max-height:none;
+  min-height:47px;padding:11px 15px;
+  border:2px solid #fff9d5;border-radius:17px;
+  background:linear-gradient(135deg,#fff9d8 0%,#ffe9a0 55%,#ffd17d 100%);
+  color:#422a32;font-size:15px;line-height:1.3;font-weight:1000;
+  letter-spacing:0;overflow:visible;overflow-wrap:break-word;
+  box-shadow:0 5px 0 #60452277,0 8px 24px #102c59a6;
+  text-shadow:0 1px 0 #ffffffa6;
+  pointer-events:none;z-index:9;
+}
+@media(max-width:600px){
+  .toast{top:calc(var(--sj-top-safe,53px) + 112px)!important;
+    width:min(315px,calc(100% - 28px));padding:11px 13px;
+    font-size:15px;line-height:1.28;}
+}
+@media(max-width:360px){.toast{font-size:13px;padding:9px 11px}}
+
+/* v2.8.0: Kompakte Sammelmeldung zwischen Höhen- und Rekordfeld. */
+.toast{top:20px!important;width:clamp(128px,32%,146px)!important;min-width:0!important;
+ max-width:146px!important;max-height:91px!important;min-height:0!important;
+ padding:7px 7px!important;border-radius:14px!important;border-width:1.5px!important;
+ font-size:11px!important;line-height:1.22!important;font-weight:1000!important;
+ overflow:hidden!important;overflow-wrap:anywhere!important;
+ box-shadow:0 3px 0 #60452277,0 5px 12px #102c5955!important;
+}
+@media(max-width:600px){.toast{top:calc(var(--sj-top-safe,53px) + 15px)!important;
+ left:calc(50% + 12px)!important;width:106px!important;max-width:106px!important;
+ font-size:10.3px!important;padding:6px 5px!important;max-height:90px!important;}}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -272,7 +322,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
     const controls=document.querySelector('.controls')?.getBoundingClientRect();
     const app=!!(navigator.standalone || matchMedia('(display-mode:standalone)').matches);
     const coord=x=>x?Math.round(x.top)+'–'+Math.round(x.bottom)+'px':'—';
-    el.firstChild.textContent='SpaceJumper v2.6.10 – iPhone Bildschirmdiagnose\n'+
+    el.firstChild.textContent='SpaceJumper v2.8.0 – iPhone Bildschirmdiagnose\n'+
       'App-Modus: '+app+'\n'+
       'Screen: '+screen.width+'×'+screen.height+'\n'+
       'inner: '+innerWidth+'×'+innerHeight+'\n'+
@@ -313,7 +363,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.10</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.8.0</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -351,9 +401,26 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       <button class="btn action" id="start" type="button">▶ LOSHÜPFEN</button>
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
+      <button class="btn secondary" id="openStats" type="button">📊 EWIGE STATISTIK</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.10</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.8.0</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
+    </div>
+  </section>
+
+  <section class="statsLayer" id="statsLayer" hidden aria-label="Karriere-Statistik">
+    <div class="statsPanel" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+      <div class="statsHead">
+        <div><h2 id="statsTitle">📊 Deine ewige Statistik</h2><p>Alle Runden zusammen · dauerhaft gespeichert</p></div>
+        <button class="close" id="closeStats" type="button" aria-label="Statistik schließen">✕</button>
+      </div>
+      <div class="statsScroll">
+        <div class="statsHero" id="statsHero"></div>
+        <div class="statsSection">🏆 Karriere</div><div class="statsGrid" id="statsCareer"></div>
+        <div class="statsSection">⚔️ Kampf &amp; Ausrüstung</div><div class="statsGrid" id="statsCombat"></div>
+        <div class="statsSection">🌍 Entdeckungen &amp; Sammlung</div><div class="statsGrid" id="statsExplore"></div>
+        <p class="statsFoot">Die Münz-Gesamtsumme und der Höhenrekord werden aus deinem bisherigen Spielstand übernommen. Neue Zähler wie Gegner, Sprünge und Gesamtmeter beginnen ab diesem Update. Die Statistik bleibt bei Game Over und Neustarts bestehen und wird im Spielstand-Backup mitgesichert. Sie ist lokal gespeichert: App nicht löschen und regelmäßig ein Backup sichern.</p>
+      </div>
     </div>
   </section>
   <section class="shopLayer" id="shopLayer" hidden aria-label="Shop und Figuren">
@@ -456,7 +523,22 @@ const CHARACTERS=[
  {id:'phoenixhero',name:'Phönix',at:200000,price:6500,emoji:'🔥',a:'#ffe4a5',b:'#ef674b',info:'200.000 m + 6.500 Münzen'},
  {id:'voidknight',name:'Void-Ritter',at:350000,price:9900,emoji:'🛡️',a:'#b39dff',b:'#46316f',info:'350.000 m + 9.900 Münzen'},
  {id:'auroraking',name:'Aurora-König',at:600000,price:14500,emoji:'👑',a:'#f5faff',b:'#78a6d8',info:'600.000 m + 14.500 Münzen'},
- {id:'cosmicbeast',name:'Kosmos-Bestie',at:1000000,price:22000,emoji:'🐲',a:'#f9b2ff',b:'#7853ad',info:'1.000.000 m + 22.000 Münzen'}
+ {id:'cosmicbeast',name:'Kosmos-Bestie',at:1000000,price:22000,emoji:'🐲',a:'#f9b2ff',b:'#7853ad',info:'1.000.000 m + 22.000 Münzen'},
+ {id:'pingu',name:'Pingu Polar',at:850,emoji:'🐧',a:'#d9f4ff',b:'#7395c0',info:'Freischalten bei 850 m'},
+ {id:'candy',name:'Candy Pop',at:1850,emoji:'🍭',a:'#fff0b0',b:'#fc84b3',info:'Freischalten bei 1.850 m'},
+ {id:'koala',name:'Koda Koala',at:4200,emoji:'🐨',a:'#e2e0f3',b:'#9192b8',info:'Freischalten bei 4.200 m'},
+ {id:'bee',name:'Bumble Blitz',at:7500,emoji:'🐝',a:'#fff0a8',b:'#edb350',info:'Freischalten bei 7.500 m'},
+ {id:'axolotl',name:'Axolotl Luna',at:13500,emoji:'🦎',a:'#ffdaed',b:'#ec8ec8',info:'Freischalten bei 13.500 m'},
+ {id:'owl',name:'Nebula-Eule',at:26000,emoji:'🦉',a:'#e9d6ff',b:'#9278c7',info:'Freischalten bei 26.000 m'},
+ {id:'pilzling',name:'Pilzling',at:38000,price:800,emoji:'🍄',a:'#fef6dc',b:'#c27a7c',info:'38.000 m + 800 Münzen'},
+ {id:'glitch',name:'Glitch-Bot',at:55000,price:1400,emoji:'👾',a:'#a8fafa',b:'#7065cd',info:'55.000 m + 1.400 Münzen'},
+ {id:'mermaid',name:'Ozean-Nova',at:84000,price:2500,emoji:'🧜',a:'#9defff',b:'#45b9bf',info:'84.000 m + 2.500 Münzen'},
+ {id:'tiger',name:'Tiger-Turbo',at:115000,price:3500,emoji:'🐯',a:'#ffdfab',b:'#ed9760',info:'115.000 m + 3.500 Münzen'},
+ {id:'moonfox',name:'Mondfuchs',at:175000,price:5500,emoji:'🌙',a:'#dcf3ff',b:'#91a1df',info:'175.000 m + 5.500 Münzen'},
+ {id:'arcane',name:'Arkan-Magier',at:270000,price:8500,emoji:'🧙',a:'#ffd7fa',b:'#9d5aca',info:'270.000 m + 8.500 Münzen'},
+ {id:'stargolem',name:'Sternengolem',at:420000,price:12000,emoji:'🗿',a:'#d8d6fd',b:'#7780be',info:'420.000 m + 12.000 Münzen'},
+ {id:'solardragon',name:'Sonnen-Drache',at:780000,price:17000,emoji:'🐉',a:'#fff0a7',b:'#f2a44c',info:'780.000 m + 17.000 Münzen'},
+ {id:'rainbowcat',name:'Prisma-Katze',at:1250000,price:25000,emoji:'🌈',a:'#e9f9ff',b:'#b68de5',info:'1.250.000 m + 25.000 Münzen'},
 ];
 const ITEMS=[
  {id:'cap',name:'Basecap',cat:'Kopfbedeckungen',slot:'head',price:8,emoji:'🧢'},
@@ -549,7 +631,39 @@ const ITEMS=[
  {id:'thundertrail',name:'Donnerblitze',cat:'Elite',slot:'trail',price:6700,emoji:'⚡',visual:'lightningtrail',minLevel:31},
  {id:'nebulatrail',name:'Nebelspur',cat:'Elite',slot:'trail',price:12000,emoji:'🌀',visual:'voidtrail',minLevel:41},
  {id:'universetrail',name:'Universumsspur',cat:'Elite',slot:'trail',price:23000,emoji:'♾️',visual:'eternitytrail',minLevel:54}
-
+,
+ {id:'rainhat',name:'Regenbogen-Hut',cat:'Neue Kopfbedeckungen',slot:'head',price:290,emoji:'🌈',visual:'witch',minLevel:6},
+ {id:'frostcap',name:'Frostmütze',cat:'Neue Kopfbedeckungen',slot:'head',price:380,emoji:'❄️',visual:'beanie',minLevel:8},
+ {id:'moonhalo',name:'Mond-Halo',cat:'Neue Kopfbedeckungen',slot:'head',price:680,emoji:'🌙',visual:'halo',minLevel:12},
+ {id:'mechacap',name:'Mecha-Kappe',cat:'Neue Kopfbedeckungen',slot:'head',price:870,emoji:'🤖',visual:'helmet',minLevel:18},
+ {id:'sunhelmet',name:'Solarhelm',cat:'Neue Kopfbedeckungen',slot:'head',price:1350,emoji:'☀️',visual:'royalhelm',minLevel:23},
+ {id:'tigerhood',name:'Tiger-Kapuze',cat:'Neue Kopfbedeckungen',slot:'head',price:2400,emoji:'🐯',visual:'neonhorns',minLevel:29},
+ {id:'galaxyhat',name:'Galaxie-Hut',cat:'Neue Kopfbedeckungen',slot:'head',price:4600,emoji:'🌌',visual:'nebulahelm',minLevel:38},
+ {id:'eternalcrown',name:'Ewigkeitskrone',cat:'Neue Kopfbedeckungen',slot:'head',price:9200,emoji:'♾️',visual:'stardiadem',minLevel:49},
+ {id:'roundglasses',name:'Retro-Brille',cat:'Neue Brillen & Masken',slot:'face',price:190,emoji:'🤓',visual:'monocle',minLevel:4},
+ {id:'rainvisor',name:'Prisma-Visier',cat:'Neue Brillen & Masken',slot:'face',price:520,emoji:'🌈',visual:'laservisor',minLevel:9},
+ {id:'frostmask',name:'Eismaske',cat:'Neue Brillen & Masken',slot:'face',price:850,emoji:'❄️',visual:'icevisor',minLevel:16},
+ {id:'dragoneyes',name:'Drachenblick',cat:'Neue Brillen & Masken',slot:'face',price:1400,emoji:'🐉',visual:'dragonmask',minLevel:22},
+ {id:'sunmask',name:'Solarmaske',cat:'Neue Brillen & Masken',slot:'face',price:2100,emoji:'☀️',visual:'royalmask',minLevel:28},
+ {id:'pixelglasses',name:'Pixelbrille',cat:'Neue Brillen & Masken',slot:'face',price:3500,emoji:'👾',visual:'starglasses',minLevel:35},
+ {id:'ghostmask',name:'Geistermaske',cat:'Neue Brillen & Masken',slot:'face',price:5700,emoji:'👻',visual:'spectramask',minLevel:43},
+ {id:'neonblind',name:'Neonblick',cat:'Neue Brillen & Masken',slot:'face',price:9500,emoji:'💠',visual:'voidvisor',minLevel:53},
+ {id:'glider',name:'Himmelsgleiter',cat:'Neue Rücken-Extras',slot:'back',price:470,emoji:'🪁',visual:'wings',minLevel:7},
+ {id:'starcloak',name:'Sternenmantel',cat:'Neue Rücken-Extras',slot:'back',price:760,emoji:'🌠',visual:'galaxycape',minLevel:12},
+ {id:'bubblepack',name:'Blasenrucksack',cat:'Neue Rücken-Extras',slot:'back',price:1200,emoji:'🫧',visual:'starbag',minLevel:19},
+ {id:'flamewings',name:'Feuerschwingen',cat:'Neue Rücken-Extras',slot:'back',price:1900,emoji:'🔥',visual:'phoenixwings',minLevel:24},
+ {id:'mechawings',name:'Roboterflügel',cat:'Neue Rücken-Extras',slot:'back',price:3400,emoji:'🤖',visual:'dragonwings',minLevel:32},
+ {id:'nebulaengine',name:'Nebula-Antrieb',cat:'Neue Rücken-Extras',slot:'back',price:5400,emoji:'🛸',visual:'crystaljet',minLevel:38},
+ {id:'solarglider',name:'Solargleiter',cat:'Neue Rücken-Extras',slot:'back',price:8700,emoji:'☀️',visual:'seraphwings',minLevel:46},
+ {id:'voidengine',name:'Void-Antrieb',cat:'Neue Rücken-Extras',slot:'back',price:15000,emoji:'🟣',visual:'godpack',minLevel:56},
+ {id:'candypath',name:'Bonbonspur',cat:'Neue Sprungspuren',slot:'trail',price:310,emoji:'🍬',visual:'candypath',minLevel:5},
+ {id:'crystalpath',name:'Kristallspur',cat:'Neue Sprungspuren',slot:'trail',price:550,emoji:'💎',visual:'crystalpath',minLevel:10},
+ {id:'leaftrail',name:'Blätterspur',cat:'Neue Sprungspuren',slot:'trail',price:850,emoji:'🌿',visual:'leaftrail',minLevel:14},
+ {id:'oceantrail',name:'Meeresfunken',cat:'Neue Sprungspuren',slot:'trail',price:1550,emoji:'🌊',visual:'oceantrail',minLevel:21},
+ {id:'suntrail',name:'Sonnenfunken',cat:'Neue Sprungspuren',slot:'trail',price:2700,emoji:'☀️',visual:'suntrail',minLevel:29},
+ {id:'shimmertrail',name:'Prismastaub',cat:'Neue Sprungspuren',slot:'trail',price:4400,emoji:'🌈',visual:'shimmertrail',minLevel:36},
+ {id:'glitchtrail',name:'Glitch-Partikel',cat:'Neue Sprungspuren',slot:'trail',price:7400,emoji:'👾',visual:'glitchtrail',minLevel:44},
+ {id:'starfalltrail',name:'Sternenfallspur',cat:'Neue Sprungspuren',slot:'trail',price:12900,emoji:'🌠',visual:'starfalltrail',minLevel:54},
 ];
 const PERKS=[
  {id:'amulet',name:'Herz-Amulett',emoji:'❤️',price:230,info:'Starte mit einem zusätzlichen Herz'},
@@ -569,12 +683,17 @@ const PERKS=[
  {id:'energyshell',name:'Energiepanzer',emoji:'🔋',price:12800,minLevel:42,info:'Starte mit längerem Schutzschild'},
  {id:'lifecore',name:'Lebenskern',emoji:'❤️',price:18000,minLevel:50,info:'Ein zusätzliches Startleben'},
  {id:'mastery',name:'Meisterschaft',emoji:'⚔️',price:25000,minLevel:58,info:'20 % mehr Schaden mit allen Waffen'}
-
+,
+ {id:'springcore',name:'Sprungfeder-Kern',emoji:'🦘',price:1900,minLevel:10,info:'Jeder normale Sprung wird 8 % stärker'},
+ {id:'powercell',name:'Power-Akku',emoji:'🔋',price:3800,minLevel:18,info:'Schutzenergie regeneriert 25 % schneller'},
+ {id:'upgradesensor',name:'Power-up-Radar',emoji:'📡',price:6500,minLevel:27,info:'Etwa 35 % häufiger nützliche Power-ups finden'},
+ {id:'moonboots',name:'Mondstiefel',emoji:'🌙',price:9800,minLevel:36,info:'Noch einmal 7 % mehr Sprungkraft'},
+ {id:'endurance',name:'Ausdaueranker',emoji:'🛡️',price:14500,minLevel:47,info:'Verlängert zeitlich begrenzte Power-ups um 30 %'},
 ];
 const SLOT_NAMES={head:'Kopf',face:'Gesicht',back:'Rücken',trail:'Spur'};
-const WEAPON_IDS=['stone','bolt','bullet','plasma','pellet','laser','missile','dual','ice','tesla','fan','triple','starlaser','nova','meteorstorm','phoenix','shock','poison','shrapnel','gravity','rainbowlaser','sun','omega','photon','thorn','sonic','chrono','prism','dragonfire','quantum','saw','blizzard','galaxy','ionstorm','volcano','crystalrain','nebularay','hydrasalvo','thunderrail','voidpulse','astralbow','titanlaser','starfall','hypersaw','omnibreaker'];
+const WEAPON_IDS=['stone','bolt','bullet','plasma','pellet','laser','missile','dual','ice','tesla','fan','triple','starlaser','nova','meteorstorm','phoenix','shock','poison','shrapnel','gravity','rainbowlaser','sun','omega','photon','thorn','sonic','chrono','prism','dragonfire','quantum','saw','blizzard','galaxy','ionstorm','volcano','crystalrain','nebularay','hydrasalvo','thunderrail','voidpulse','astralbow','titanlaser','starfall','hypersaw','omnibreaker','polarwerfer','starpistol','firehawk','magnetblaster','prismshot','moonbeam','stormbow','firevortex','neoncatapult','cosmicspear','sunrain','eternitybolt'];
 const KEY='hoehenrausch_save_v2'; // Unverändert: vorhandene Spielstände erhalten
-const makeDefault=()=>({best:0,wallet:0,total:0,char:'sunny',owned:[],records:[],runs:[],lastPlayerName:'',hardcoreBest:0,charXP:{},charSkills:{},perks:[],characterOwned:[],weaponOwned:['stone'],weaponLevels:{stone:1},equippedWeapon:'stone',autoFireEnabled:false,equip:{head:null,face:null,back:null,trail:null}});
+const makeDefault=()=>({stats:{runsStarted:0,runsCompleted:0,hardcoreRuns:0,enemies:0,meters:0,jumps:0,shots:0,hits:0,powerups:0,coinPickups:0,playSeconds:0,bestRunKills:0,bestRunCoins:0},best:0,wallet:0,total:0,char:'sunny',owned:[],records:[],runs:[],lastPlayerName:'',hardcoreBest:0,charXP:{},charSkills:{},perks:[],characterOwned:[],weaponOwned:['stone'],weaponLevels:{stone:1},equippedWeapon:'stone',autoFireEnabled:false,equip:{head:null,face:null,back:null,trail:null}});
 const cleanName=s=>String(s||'').replace(/[\x00-\x1f\x7f]/g,'').trim().slice(0,18);
 const validHeight=h=>Math.max(0,Math.min(999999999,Math.floor(Number(h)||0)));
 function normalizeRecords(list){
@@ -592,6 +711,7 @@ function loadSave(){const s=makeDefault();try{const raw=JSON.parse(localStorage.
  s.best=validHeight(raw.best);
  s.wallet=validHeight(raw.wallet);
  s.total=Math.max(s.wallet,validHeight(raw.total));
+ s.stats=normalizeStats(raw.stats);
  if(CHARACTERS.some(c=>c.id===raw.char))s.char=raw.char;
  s.owned=Array.isArray(raw.owned)?[...new Set(raw.owned.filter(id=>ITEMS.some(i=>i.id===id)))]:[];
  s.records=normalizeRecords(raw.records);
@@ -618,6 +738,55 @@ function loadSave(){const s=makeDefault();try{const raw=JSON.parse(localStorage.
  s.records=normalizeRecords([...s.records,...s.runs]);
  if(CHARACTERS.find(c=>c.id===s.char).at>s.best || (CHARACTERS.find(c=>c.id===s.char).price&&!s.characterOwned.includes(s.char)))s.char='sunny';return s;
 }
+
+// Unbegrenzt fortlaufende Karrierewerte – Teil desselben Spielstands/Backups.
+const STATS_FIELDS=['runsStarted','runsCompleted','hardcoreRuns','enemies','meters','jumps','shots','hits','powerups','coinPickups','playSeconds','bestRunKills','bestRunCoins'];
+const safeStat=n=>Number.isFinite(Number(n))?Math.max(0,Math.min(999999999999,Number(n))):0;
+function normalizeStats(src){const out={};for(const k of STATS_FIELDS)out[k]=safeStat(src?.[k]);return out;}
+const statNumber=n=>Math.floor(safeStat(n)).toLocaleString('de-DE');
+const statTime=s=>{let n=Math.floor(safeStat(s));const hours=Math.floor(n/3600),minutes=Math.floor(n%3600/60);return hours>0?hours.toLocaleString('de-DE')+' Std. '+minutes+' Min.':minutes+' Min.';};
+function statsTile(label,value){const el=document.createElement('div');el.className='statsTile';const a=document.createElement('span');a.textContent=label;const b=document.createElement('strong');b.textContent=value;el.append(a,b);return el;}
+function statsBig(label,value){const el=document.createElement('div');const b=document.createElement('b');b.textContent=value;const a=document.createElement('span');a.textContent=label;el.append(b,a);return el;}
+function renderStats(){
+ const s=save.stats;
+ const put=(id,entries,big=false)=>{const dst=$(id);dst.replaceChildren();for(const [label,val] of entries)dst.append(big?statsBig(label,val):statsTile(label,val));};
+ put('statsHero',[
+  ['Gegner besiegt',statNumber(s.enemies)],
+  ['Münzen insgesamt',statNumber(save.total)]
+ ],true);
+ put('statsCareer',[
+  ['Gesamte Höhenmeter',statNumber(s.meters)+' m'],
+  ['Höchster Lauf',statNumber(save.best)+' m'],
+  ['Gestartete Runden',statNumber(s.runsStarted)],
+  ['Beendete Runden',statNumber(s.runsCompleted)],
+  ['Hardcore-Runden',statNumber(s.hardcoreRuns)],
+  ['Gesamte Spielzeit',statTime(s.playSeconds)],
+  ['Sprünge auf Plattformen',statNumber(s.jumps)],
+  ['Rekordeinträge',statNumber(save.runs.filter(r=>!r.legacy).length)]
+ ]);
+ put('statsCombat',[
+  ['Abgegebene Angriffe',statNumber(s.shots)],
+  ['Treffer eingesteckt',statNumber(s.hits)],
+  ['Meiste Gegner pro Runde',statNumber(s.bestRunKills)],
+  ['Gekaufte Waffen',statNumber(save.weaponOwned.length)+' / '+WEAPON_IDS.length],
+  ['Stärkstes Charakterlevel',statNumber(Math.max(...CHARACTERS.map(c=>levelOf(c.id))))],
+  ['Aktuell ausgerüstet',WEAPONS.find(w=>w.style===save.equippedWeapon)?.name||save.equippedWeapon]
+ ]);
+ put('statsExplore',[
+  ['Münzen aufgesammelt',statNumber(s.coinPickups)],
+  ['Power-ups eingesammelt',statNumber(s.powerups)],
+  ['Meiste Münzen pro Runde',statNumber(s.bestRunCoins)],
+  ['Sphären erreicht',statNumber(zIdx(save.best)+1)+' / '+ZONES.length],
+  ['Figuren freigeschaltet',statNumber(CHARACTERS.filter(c=>c.at<=save.best||save.characterOwned.includes(c.id)).length)+' / '+CHARACTERS.length],
+  ['Accessoires gekauft',statNumber(save.owned.length)+' / '+ITEMS.length]
+ ]);
+}
+function openStats(){renderStats();$('statsLayer').hidden=false;}
+function closeStats(){$('statsLayer').hidden=true;}
+$('openStats').addEventListener('click',openStats);
+$('closeStats').addEventListener('click',closeStats);
+$('statsLayer').addEventListener('click',e=>{if(e.target===$('statsLayer'))closeStats();});
+
 const save=loadSave();
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(save));localStorage.setItem('hoehenrausch_best_v1',String(save.best));}catch(e){}}
 const xpForLevel=level=>Math.max(0,42*(level-1)+14*(level-1)*(level-1));
@@ -683,7 +852,7 @@ $('modeNormal').addEventListener('click',()=>selectMode('normal'));
 $('modeHardcore').addEventListener('click',()=>selectMode('hardcore'));
 const keys={left:false,right:false,shoot:false};
 let mode='menu',shopOpen=false,shopTab='figures',time=0,last=performance.now(),player,platforms=[],coins=[],particles=[],enemies=[],powerups=[],projectiles=[],enemyShots=[],beams=[];
-let camera=0,topReached=FLOOR,nextY=FLOOR,lastX=W/2,earnedCoins=0,score=0,zoneIndex=0,toastUntil=0,audio=null,defeated=0,damageTaken=0,elapsedSave=0;
+let camera=0,topReached=FLOOR,nextY=FLOOR,lastX=W/2,earnedCoins=0,score=0,lastTrackedScore=0,zoneIndex=0,toastUntil=0,audio=null,defeated=0,damageTaken=0,elapsedSave=0;
 let prevBest=save.best,runRecordTarget=save.best,recordCrossed=false;
 const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const hash=(n)=>{const v=Math.sin(n*127.17+14.8)*43758.5453;return v-Math.floor(v)};
@@ -738,13 +907,25 @@ const WEAPONS=[
  {name:'Sternenfall',icon:'☄️',color:'#ffca9b',cooldown:0.82,speed:1090,size:13,damage:155,ammo:null,cost:0,style:'starfall',attackStyle:'meteorstorm',sound:1040},
  {name:'Hyper-Säge',icon:'⚙️',color:'#a8f9fb',cooldown:0.37,speed:1500,size:10,damage:177,ammo:null,cost:0,style:'hypersaw',attackStyle:'saw',sound:1040},
  {name:'Omnibrecher',icon:'♾️',color:'#ff9df0',cooldown:0.94,speed:1120,size:19,damage:215,ammo:null,cost:0,style:'omnibreaker',attackStyle:'galaxy',sound:1040}
-
+,
+ {name:'Polarwerfer',icon:'🧊',color:'#bdf6ff',cooldown:0.32,speed:1040,size:8,damage:33,ammo:null,cost:0,style:'polarwerfer',attackStyle:'ice',sound:880},
+ {name:'Sternenpistole',icon:'🌟',color:'#ffeaa0',cooldown:0.19,speed:1220,size:6,damage:40,ammo:null,cost:0,style:'starpistol',attackStyle:'dual',sound:1260},
+ {name:'Feuerfalke',icon:'🦅',color:'#ffad79',cooldown:0.43,speed:1100,size:9,damage:47,ammo:null,cost:0,style:'firehawk',attackStyle:'phoenix',sound:930},
+ {name:'Magnetblaster',icon:'🧲',color:'#91ebee',cooldown:0.46,speed:1160,size:10,damage:54,ammo:null,cost:0,style:'magnetblaster',attackStyle:'gravity',sound:820},
+ {name:'Prismenschrot',icon:'💎',color:'#efb1ff',cooldown:0.53,speed:1190,size:7,damage:62,ammo:null,cost:0,style:'prismshot',attackStyle:'shrapnel',sound:940},
+ {name:'Mondstrahler',icon:'🌙',color:'#c9c4ff',cooldown:0.6,speed:0,size:12,damage:70,ammo:null,cost:0,style:'moonbeam',attackStyle:'prism',sound:1300},
+ {name:'Sturmbogen',icon:'🏹',color:'#a7e9ff',cooldown:0.26,speed:1350,size:8,damage:79,ammo:null,cost:0,style:'stormbow',attackStyle:'thorn',sound:1200},
+ {name:'Flammenwirbel',icon:'🔥',color:'#ffa87a',cooldown:0.43,speed:1190,size:10,damage:91,ammo:null,cost:0,style:'firevortex',attackStyle:'dragonfire',sound:850},
+ {name:'Neonkatapult',icon:'👾',color:'#b7ffa3',cooldown:0.32,speed:1430,size:9,damage:103,ammo:null,cost:0,style:'neoncatapult',attackStyle:'saw',sound:1200},
+ {name:'Kosmoslanze',icon:'🔱',color:'#c49cff',cooldown:0.54,speed:0,size:14,damage:117,ammo:null,cost:0,style:'cosmicspear',attackStyle:'starlaser',sound:1400},
+ {name:'Sonnenhagel',icon:'☀️',color:'#ffdc7c',cooldown:0.68,speed:1250,size:13,damage:137,ammo:null,cost:0,style:'sunrain',attackStyle:'meteorstorm',sound:1150},
+ {name:'Ewigkeitsblitz',icon:'♾️',color:'#ffb5f7',cooldown:0.74,speed:0,size:17,damage:172,ammo:null,cost:0,style:'eternitybolt',attackStyle:'rainbowlaser',sound:1600},
 ];
 // Every weapon has its own permanent upgrade level, saved independently of the current run.
 const weaponUpgradeLevel=index=>Math.max(1,Math.min(5,save.weaponLevels[WEAPONS[index]?.style]||1));
-const weaponRequiredLevel=index=>index<33?1:Math.min(60,12+(index-33)*4);
-const weaponBuyCost=index=>index===0?0:Math.round((index<33?(45+index*35+index*index*11):(6000+(index-33)*1600+(index-33)*(index-33)*440))*(hasPerk('startinggun')?.85:1));
-const weaponUpgradeCost=(index,level)=>Math.round((index<33?45+index*20:1600+(index-33)*460)*level*level);
+const weaponRequiredLevel=index=>index>=45?Math.min(60,15+(index-45)*4):index<33?1:Math.min(60,12+(index-33)*4);
+const weaponBuyCost=index=>index===0?0:Math.round((index>=45?(4800+(index-45)*1550+(index-45)*(index-45)*270):index<33?(45+index*35+index*index*11):(6000+(index-33)*1600+(index-33)*(index-33)*440))*(hasPerk('startinggun')?.85:1));
+const weaponUpgradeCost=(index,level)=>Math.round((index>=45?2200+(index-45)*480:index<33?45+index*20:1600+(index-33)*460)*level*level);
 const currentWeapon=()=>{
  const index=clamp(player?.weaponLevel??0,0,WEAPONS.length-1),base=WEAPONS[index],level=weaponUpgradeLevel(index),extra=level-1;
  return {...base,upgradeLevel:level,damage:base.damage*(1+extra*.22),cooldown:Math.max(.105,base.cooldown*(1-extra*.055)),speed:base.speed*(1+extra*.05),size:base.size*(1+extra*.04)};
@@ -792,13 +973,13 @@ function hud(){
  $('ammoText').innerHTML='<strong>∞</strong> Munition';
  $('energyText').textContent='🛡 '+Math.floor(player.energy)+'%';const lvl=levelOf(),xp=save.charXP[save.char]||0,base=xpForLevel(lvl),next=xpForLevel(lvl+1);$('xpLevelName').textContent='⭐ Level '+lvl+' · '+Math.max(0,xp-base).toLocaleString('de-DE')+' XP';$('xpRemaining').textContent=lvl>=60?'MAX LEVEL':('Noch '+Math.max(0,next-xp).toLocaleString('de-DE')+' XP bis Level '+(lvl+1));$('energyFill').style.width=(lvl>=60?100:100*clamp((xp-base)/(next-base),0,1))+'%';}
 
- if(player){const lvChip=document.createElement('span');lvChip.className='effectchip';lvChip.textContent='⭐ Lv '+levelOf();lvChip.title='Charakterlevel';effects.append(lvChip);const w=currentWeapon();const weaponChip=document.createElement('span');weaponChip.className='effectchip';weaponChip.style.background='#5c327ed9';weaponChip.textContent=w.icon+' '+w.name+' ★'+w.upgradeLevel;weaponChip.title='Aktuelle Waffe';effects.append(weaponChip);for(const [type,ico,label] of [['shield','🛡️','Schild'],['magnet','🧲','Magnet'],['double','✖2','Münzen'],['rocket','🚀','Turbo']]){
+ if(player){const lvChip=document.createElement('span');lvChip.className='effectchip';lvChip.textContent='⭐ Lv '+levelOf();lvChip.title='Charakterlevel';effects.append(lvChip);const w=currentWeapon();const weaponChip=document.createElement('span');weaponChip.className='effectchip';weaponChip.style.background='#5c327ed9';weaponChip.textContent=w.icon+' '+w.name+' ★'+w.upgradeLevel;weaponChip.title='Aktuelle Waffe';effects.append(weaponChip);for(const [type,ico,label] of [['shield','🛡️','Schild'],['magnet','🧲','Magnet'],['double','✖2','Münzen'],['rocket','🚀','Turbo'],['spring','🦘','Sprung'],['rapid','⚡','Schnellfeuer'],['freeze','🧊','Zeitfrost']]){
  const left=player.effects[type];if(left>.03){const chip=document.createElement('span');chip.className='effectchip';chip.textContent=ico+' '+Math.ceil(left)+'s';chip.title=label;effects.append(chip)}}}
 
 }
-function showToast(msg,seconds=2.4){$('toast').textContent=msg;$('toast').hidden=false;toastUntil=performance.now()+seconds*1000;}
+function showToast(msg,seconds=2.4){seconds=Math.max(seconds,2.1);$('toast').textContent=msg;$('toast').hidden=false;toastUntil=performance.now()+seconds*1000;}
 function puff(x,y,color,n=8,power=1){for(let i=0;i<n;i++)particles.push({x,y,vx:rand(-120,120)*power,vy:rand(-15,165)*power,r:rand(2,6),life:rand(.3,.68),age:0,color})}
-const POWER_TYPES=['shield','magnet','double','rocket','ammo','energy','heart'];
+const POWER_TYPES=['shield','magnet','double','rocket','ammo','energy','heart','spring','rapid','treasure','freeze','battery'];
 const POWER_DATA={
  shield:{icon:'🛡️',name:'Schutzschild',info:'Blockiert den nächsten Treffer',color:'#7de3ff',seconds:22},
  magnet:{icon:'🧲',name:'Münzmagnet',info:'Zieht Münzen aus der Nähe an',color:'#f2a2fb',seconds:18},
@@ -807,33 +988,42 @@ const POWER_DATA={
  weapon:{icon:'🟣',name:'Waffen-Upgrade',info:'Neue Waffe mit stärkerem Angriff',color:'#bf99ff',seconds:0},
  ammo:{icon:'📦',name:'Bonus-Kiste',info:'Gibt Bonusmünzen und Schutzenergie',color:'#f9d477',seconds:0},
  energy:{icon:'🔋',name:'Energiezelle',info:'Füllt Energie auf',color:'#8ffaac',seconds:0},
- heart:{icon:'❤️',name:'Herz',info:'Schenkt dir ein zusätzliches Leben',color:'#ff88a2',seconds:0}
+ heart:{icon:'❤️',name:'Herz',info:'Schenkt dir ein zusätzliches Leben',color:'#ff88a2',seconds:0},
+ spring:{icon:'🦘',name:'Supersprung',info:'Höher springen für 24 Sekunden',color:'#9bffbd',seconds:24},
+ rapid:{icon:'⚡',name:'Schnellfeuer',info:'Waffen schießen 30 Sekunden schneller',color:'#ffe58e',seconds:30},
+ treasure:{icon:'🎁',name:'Schatzkiste',info:'Bonusmünzen und Erfahrung',color:'#ffcc80',seconds:0},
+ freeze:{icon:'🧊',name:'Zeitfrost',info:'Friert Gegner für 12 Sekunden ein',color:'#b0e8ff',seconds:12},
+ battery:{icon:'💚',name:'Energieschub',info:'Sofort 100 Energie und Schild',color:'#a6ffce',seconds:0}
 };
-function collectMoney(v,x,y){v=Math.round(v*(hasPerk('coinboost')?1.25:1)*(hasPerk('coinvault')?1.5:1));earnedCoins+=v;save.wallet+=v;save.total+=v;gainXP(Math.max(1,Math.ceil(v/3)));persist();puff(x,y,'#ffcd4a',10,1.1);tone(880,.11,'triangle',.03)}
-function collectPower(up){up.taken=true;const meta=POWER_DATA[up.kind];
+function collectMoney(v,x,y){v=Math.round(v*(hasPerk('coinboost')?1.25:1)*(hasPerk('coinvault')?1.5:1));earnedCoins+=v;save.wallet+=v;save.total+=v;gainXP(Math.max(1,Math.ceil(v/3)));persist();puff(x,y,'#ffcd4a',10,1.1);tone(880,.11,'triangle',.03);return v}
+function collectPower(up){up.taken=true;save.stats.powerups++;const meta=POWER_DATA[up.kind];
  if(up.kind==='weapon'){
   // Alte gespeicherte Läufe dürfen keine Waffen mehr freischalten.
   collectMoney(10,player.x,player.y);showToast('🪙 Bonus: +10 Münzen',1.5);
   puff(player.x,player.y,'#c3a4ff',12,.9);return;
  }
+ if(up.kind==='treasure'){const reward=12+Math.floor(score/5000);collectMoney(reward,player.x,player.y);gainXP(24);showToast('🎁 Schatzkiste: Münzen + XP!',2.5);return}
+ if(up.kind==='battery'){player.energy=100;player.effects.shield=Math.max(player.effects.shield,12);showToast('💚 Energie voll + Schutzschild!',2.4);tone(980,.18,'triangle');return}
  if(up.kind==='ammo'){collectMoney(6,player.x,player.y);player.energy=Math.min(100,player.energy+20);
   showToast('📦 Bonus-Kiste: +6 Münzen!',1.6);puff(player.x,player.y,'#ffe6a3',13,.9);tone(740,.12,'triangle');return;
  }
  if(up.kind==='energy'){player.energy=Math.min(100,player.energy+46);showToast('🔋 Energie +46!',1.7);puff(player.x,player.y,'#9dffc3',13,.9);tone(960,.11,'triangle');return}
  if(up.kind==='heart'){const maxLives=player.maxLives||5;if(player.lives<maxLives){player.lives++;showToast('❤️ Extra-Leben! Jetzt '+player.lives+' Herzen',1.8);puff(player.x,player.y,'#ff98b0',18,1.1);tone(980,.12,'triangle');}else{collectMoney(8,player.x,player.y);player.energy=Math.min(100,player.energy+12);showToast('❤️ Volles Leben! Bonus: 8 Münzen',1.8);puff(player.x,player.y,'#ff98b0',16,1.0);tone(880,.1,'triangle');}return}
- player.effects[up.kind]=Math.min(45,player.effects[up.kind]+meta.seconds);
+ player.effects[up.kind]=Math.min(60,(player.effects[up.kind]||0)+meta.seconds*(hasPerk('endurance')?1.3:1));
  if(up.kind==='rocket'){player.vy=Math.max(player.vy,1320);puff(player.x,player.y,'#ffb97a',26,1.6)}
  else if(up.kind==='shield'){puff(player.x,player.y,'#91e5ff',17,1.1)}
+ else if(up.kind==='freeze'){for(const e of enemies)if(!e.dead)e.freeze=Math.max(e.freeze||0,Math.min(12,meta.seconds));puff(player.x,player.y,'#d6f8ff',22,1.1)}
  showToast(meta.icon+' '+meta.name+'! '+meta.info,2.1);tone(1040,.2,'triangle',.035)
 }
-function killEnemy(enemy,rocket=false,byShot=false){enemy.dead=true;defeated++;
+function killEnemy(enemy,rocket=false,byShot=false){enemy.dead=true;defeated++;save.stats.enemies++;save.stats.bestRunKills=Math.max(save.stats.bestRunKills,defeated);
  const amount=Math.round((player.effects.double>0?6:3)*(hasPerk('luckycharm')?1.5:1)*(hasPerk('coinboost')?1.25:1)*(hasPerk('coinvault')?1.5:1));save.wallet+=amount;save.total+=amount;earnedCoins+=amount;gainXP(12);persist();
  puff(enemy.x,enemy.y,enemy.color,18,1.35);tone(rocket?1050:byShot?860:690,.13,'square',.024);
  if(!rocket&&!byShot){player.vy=Math.max(player.vy,980);player.y=Math.max(player.y,enemy.y+enemy.r+18)}
 }
 function tryShoot(){
  if(mode!=='playing'||!player||player.shootCooldown>0)return;
- const w=currentWeapon();player.shootCooldown=w.cooldown;
+ save.stats.shots++;
+ const w=currentWeapon();player.shootCooldown=w.cooldown*(player.effects.rapid>0?.62:1);
  const x=player.x,y=player.y+24;
  const attackStyle=w.attackStyle||w.style;
  if(attackStyle==='laser'||attackStyle==='starlaser'||attackStyle==='rainbowlaser'||attackStyle==='prism'){
@@ -909,7 +1099,7 @@ function tryShoot(){
 function hurt(enemy){if(player.invuln>0)return;
  if(player.effects.shield>0){player.effects.shield=0;player.invuln=1.25;showToast('🛡️ Schild hat dich geschützt!',1.6);tone(520,.14,'triangle');}
  else if(player.energy>=Math.max(48,75-skillOf().armor*5)){player.energy-=Math.max(48,75-skillOf().armor*5);player.invuln=1.25;showToast('🛡️ Schutzenergie hat dich gerettet!',1.65);tone(620,.15,'triangle');}
- else{player.lives--;damageTaken++;player.invuln=1.8;showToast('💔 Aua! Noch '+player.lives+' Leben',1.45);tone(210,.19,'sawtooth',.035);if(player.lives<=0){if(reviveReady){reviveReady=false;player.lives=1;player.energy=100;player.invuln=3;showToast('🛸 Rettungsdrohne! Zweite Chance!',2.3)}else{gameOver();return}}}
+ else{player.lives--;damageTaken++;save.stats.hits++;player.invuln=1.8;showToast('💔 Aua! Noch '+player.lives+' Leben',1.45);tone(210,.19,'sawtooth',.035);if(player.lives<=0){if(reviveReady){reviveReady=false;player.lives=1;player.energy=100;player.invuln=3;showToast('🛸 Rettungsdrohne! Zweite Chance!',2.3)}else{gameOver();return}}}
  player.vy=Math.max(player.vy,730);player.vx=enemy.x<player.x?200:-200;
  puff(player.x,player.y,'#ff9da3',17,1.1)
 }
@@ -958,7 +1148,8 @@ function fillPlatforms(limit){
   if(roll<.038)pick=null;               // Keine Waffen-Fundstücke: nur durch Kauf freischalten
   else if(roll<.098)pick='energy';       // unverändert: 6 %
   else if(roll<.110)pick='heart';        // unverändert: 1.2 %
-  else if(roll<.212)pick=POWER_TYPES[Math.floor(Math.random()*4)];  // unverändert: 10.2 %
+  else if(roll<.212)pick=POWER_TYPES[Math.floor(Math.random()*4)];  // klassische Boosts
+  else if(roll<(.212+(hasPerk('upgradesensor')?.058:.043)))pick=['spring','rapid','treasure','freeze','battery'][Math.floor(Math.random()*5)];
   if(pick)powerups.push({kind:pick,x:x+width/2,y:nextY+91,phase:rand(0,6.3),taken:false});
  }
  if(nextY>(runMode==='hardcore'?1200:2400)&&Math.random()<(runMode==='hardcore'?.36:.19)+difficulty*.11){
@@ -974,24 +1165,24 @@ const RUN_KEY='spacejump_active_run_v1';
 let lastRunSavedAt=0;
 function safeRunSnapshot(){try{const raw=JSON.parse(localStorage.getItem(RUN_KEY));return raw&&raw.version===1&&raw.player&&Array.isArray(raw.platforms)&&raw.platforms.length>0&&['normal','hardcore'].includes(raw.runMode)?raw:null}catch(e){return null}}
 function updateContinueButton(){const b=$('continueRun');if(!b)return;const r=safeRunSnapshot();b.hidden=!r||mode==='playing'||mode==='paused';if(r)b.textContent='↪ LAUF FORTSETZEN · '+(r.score||0).toLocaleString('de-DE')+' m';}
-function saveRunSnapshot(){if(mode!=='playing'&&mode!=='paused')return;try{const data={version:1,runMode,char:save.char,player,camera,topReached,nextY,lastX,score,zoneIndex,earnedCoins,defeated,damageTaken,lastXPMeter,reviveReady,runRecordTarget,recordCrossed,prevBest,time,platforms,coins,powerups,enemies,projectiles,enemyShots,beams};localStorage.setItem(RUN_KEY,JSON.stringify(data));}catch(e){}}
+function saveRunSnapshot(){if(mode!=='playing'&&mode!=='paused')return;persist();try{const data={version:1,runMode,char:save.char,player,camera,topReached,nextY,lastX,score,zoneIndex,earnedCoins,defeated,damageTaken,lastXPMeter,reviveReady,runRecordTarget,recordCrossed,prevBest,time,platforms,coins,powerups,enemies,projectiles,enemyShots,beams};localStorage.setItem(RUN_KEY,JSON.stringify(data));}catch(e){}}
 function clearRunSnapshot(){try{localStorage.removeItem(RUN_KEY)}catch(e){}updateContinueButton()}
 function continueSavedRun(){const r=safeRunSnapshot();if(!r)return;try{
- runMode=r.runMode;selectedMode=runMode;player=r.player;player.weaponLevel=Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone'));camera=r.camera||0;topReached=r.topReached||FLOOR;nextY=r.nextY||FLOOR;lastX=r.lastX||W/2;score=r.score||0;zoneIndex=r.zoneIndex||0;earnedCoins=r.earnedCoins||0;defeated=r.defeated||0;damageTaken=r.damageTaken||0;lastXPMeter=r.lastXPMeter||0;reviveReady=!!r.reviveReady;runRecordTarget=r.runRecordTarget||0;recordCrossed=!!r.recordCrossed;prevBest=r.prevBest||0;time=r.time||0;
+ runMode=r.runMode;selectedMode=runMode;player=r.player;player.effects={shield:0,magnet:0,double:0,rocket:0,spring:0,rapid:0,freeze:0,...(player.effects||{})};player.weaponLevel=Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone'));camera=r.camera||0;topReached=r.topReached||FLOOR;nextY=r.nextY||FLOOR;lastX=r.lastX||W/2;score=r.score||0;lastTrackedScore=score;zoneIndex=r.zoneIndex||0;earnedCoins=r.earnedCoins||0;defeated=r.defeated||0;damageTaken=r.damageTaken||0;lastXPMeter=r.lastXPMeter||0;reviveReady=!!r.reviveReady;runRecordTarget=r.runRecordTarget||0;recordCrossed=!!r.recordCrossed;prevBest=r.prevBest||0;time=r.time||0;
  platforms=r.platforms;coins=r.coins||[];powerups=(r.powerups||[]).filter(p=>p.kind!=='weapon');enemies=r.enemies||[];projectiles=r.projectiles||[];enemyShots=r.enemyShots||[];beams=r.beams||[];particles=[];
  mode='playing';shopOpen=false;runEntryPending=false;$('modePicker').hidden=true;$('recordEntry').hidden=true;$('entryConfirmation').hidden=true;$('overlay').hidden=true;$('shopLayer').hidden=true;$('resourcebar').style.display='block';$('pause').style.display='block';$('pause').textContent='Ⅱ';$('toast').hidden=true;
  keys.left=false;keys.right=false;keys.shoot=false;updateButtons();lastRunSavedAt=time;last=performance.now();hud();
  }catch(e){console.warn('Spielstand konnte nicht geladen werden',e);clearRunSnapshot();}}
 $('continueRun').addEventListener('click',continueSavedRun);
 window.addEventListener('pagehide',saveRunSnapshot);
-function begin(){clearRunSnapshot();runMode=selectedMode;lastXPMeter=0;reviveReady=hasPerk('revive');$('modePicker').hidden=true;runEntryPending=false;$('recordEntry').hidden=true;$('entryConfirmation').hidden=true;runRecordTarget=runMode==='hardcore'?save.hardcoreBest:save.best;recordCrossed=false;mode='playing';time=0;camera=0;zoneIndex=0;score=0;earnedCoins=0;defeated=0;damageTaken=0;elapsedSave=0;nextY=FLOOR;lastX=W/2;topReached=FLOOR;particles=[];enemies=[];powerups=[];projectiles=[];enemyShots=[];beams=[];
+function begin(){clearRunSnapshot();runMode=selectedMode;save.stats.runsStarted++;if(runMode==='hardcore')save.stats.hardcoreRuns++;persist();lastXPMeter=0;reviveReady=hasPerk('revive');$('modePicker').hidden=true;runEntryPending=false;$('recordEntry').hidden=true;$('entryConfirmation').hidden=true;runRecordTarget=runMode==='hardcore'?save.hardcoreBest:save.best;recordCrossed=false;mode='playing';time=0;camera=0;zoneIndex=0;score=0;lastTrackedScore=0;earnedCoins=0;defeated=0;damageTaken=0;elapsedSave=0;nextY=FLOOR;lastX=W/2;topReached=FLOOR;particles=[];enemies=[];powerups=[];projectiles=[];enemyShots=[];beams=[];
  platforms=[{x:153,y:FLOOR,w:114,kind:'normal',baseX:153,phase:0,speed:0,range:0,broken:false,boost:false}];coins=[];
- player={x:W/2,y:FLOOR,vx:0,vy:JUMP+skillOf().jump*22,r:18,lives:(runMode==='hardcore'?2:3)+Math.floor(skillOf().armor/3)+(hasPerk('amulet')?1:0)+(hasPerk('superarmor')?2:0)+(hasPerk('lifecore')?1:0),maxLives:(runMode==='hardcore'?4:5)+Math.floor(skillOf().armor/3)+(hasPerk('superarmor')?2:0),invuln:0,weaponLevel:Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone')),energy:100,shootCooldown:0,effects:{shield:hasPerk('energyshell')?36:hasPerk('shieldkit')?24:0,magnet:hasPerk('goldmagnet')?20:0,double:0,rocket:0}};player.lives=Math.min(player.lives,player.maxLives);fillPlatforms(1300);
+ player={x:W/2,y:FLOOR,vx:0,vy:JUMP+skillOf().jump*22,r:18,lives:(runMode==='hardcore'?2:3)+Math.floor(skillOf().armor/3)+(hasPerk('amulet')?1:0)+(hasPerk('superarmor')?2:0)+(hasPerk('lifecore')?1:0),maxLives:(runMode==='hardcore'?4:5)+Math.floor(skillOf().armor/3)+(hasPerk('superarmor')?2:0),invuln:0,weaponLevel:Math.max(0,WEAPON_IDS.indexOf(save.weaponOwned.includes(save.equippedWeapon)?save.equippedWeapon:'stone')),energy:100,shootCooldown:0,effects:{shield:hasPerk('energyshell')?36:hasPerk('shieldkit')?24:0,magnet:hasPerk('goldmagnet')?20:0,double:0,rocket:0,spring:0,rapid:0,freeze:0}};player.lives=Math.min(player.lives,player.maxLives);fillPlatforms(1300);
  $('overlay').hidden=true;$('resourcebar').style.display='block';$('pause').style.display='block';$('pause').textContent='Ⅱ';$('toast').hidden=true;
  keys.left=false;keys.right=false;keys.shoot=false;updateButtons();hud();tone(630,.08);
 }
 function updateButtons(){for(const s of ['left','right','shoot'])$(s).classList.toggle('pressed',!!keys[s])}
-function gameOver(){if(mode!=='playing')return;clearRunSnapshot();mode='over';$('pause').style.display='none';$('autofireToggle').style.display='none';
+function gameOver(){if(mode!=='playing')return;save.stats.runsCompleted++;save.stats.bestRunKills=Math.max(save.stats.bestRunKills,defeated);save.stats.bestRunCoins=Math.max(save.stats.bestRunCoins,earnedCoins);persist();clearRunSnapshot();mode='over';$('pause').style.display='none';$('autofireToggle').style.display='none';
  const record=score>runRecordTarget;prevBest=Math.max(prevBest,score);runEntryPending=true;$('modePicker').hidden=false;selectMode(runMode);$('start').textContent='↻ NOCHMAL SPIELEN';setRecordView('top');$('recordboard').hidden=false;
  $('recordEntry').hidden=false;$('recordPlayerName').value=save.lastPlayerName||'';$('entryConfirmation').hidden=true;
  $('title').innerHTML='GAME<br>OVER!';$('subtitle').textContent=(runMode==='hardcore'?'☠ Hardcore · ':'')+(record?'Neuer Höhenrekord! ':'')+defeated+' Gegner · '+earnedCoins+' Münzen';
@@ -1024,12 +1215,13 @@ function unlockMilestone(oldBest,newBest){
  if(unlocked.length){showToast('Neue Figur: '+unlocked[unlocked.length-1].name+' freigeschaltet!',3.1);tone(990,.2,'triangle');}
 }
 function update(dt){
- time+=dt;
+ time+=dt;save.stats.playSeconds+=dt;
  if(time-lastRunSavedAt>2.5){lastRunSavedAt=time;saveRunSnapshot();}
  player.invuln=Math.max(0,player.invuln-dt);
  player.shootCooldown=Math.max(0,(player.shootCooldown||0)-dt);
- player.energy=Math.min(100,player.energy+dt*7);
- for(const k of Object.keys(player.effects))player.effects[k]=Math.max(0,player.effects[k]-dt);
+ player.energy=Math.min(100,player.energy+dt*7*(hasPerk('powercell')?1.25:1));
+ for(const k of Object.keys(player.effects))player.effects[k]=Math.max(0,(player.effects[k]||0)-dt);
+ if(player.effects.freeze>0){for(const e of enemies)if(!e.dead)e.freeze=Math.max(e.freeze||0,dt*2);}
  // Autofire is a paid permanent perk; without it every key/touch press remains a single attack.
  if(hasPerk('autofire') && save.autoFireEnabled)tryShoot();
  for(const p of platforms)if(p.kind==='moving')p.x=clamp(p.baseX+Math.sin(time*p.speed+p.phase)*p.range,10,W-p.w-10);
@@ -1078,10 +1270,11 @@ function update(dt){
  if(player.effects.rocket>0){player.vy+=2150*dt;player.vy=Math.min(player.vy,1550);if(Math.random()<.7)puff(player.x+rand(-8,8),player.y-14,'#ffb14e',2,.4)}
  player.y+=player.vy*dt;
  if(player.vy<0){let land=null;for(const p of platforms){if(p.broken||oldY<p.y-1||player.y>p.y||player.x+player.r-4<p.x||player.x-player.r+4>p.x+p.w)continue;if(!land||p.y>land.y)land=p}
- if(land){player.y=land.y;player.vy=land.boost&&Math.abs(player.x-(land.x+land.w/2))<31?1210+skillOf().jump*8:JUMP+skillOf().jump*22;
+ if(land){save.stats.jumps++;player.y=land.y;player.vy=(land.boost&&Math.abs(player.x-(land.x+land.w/2))<31?1210+skillOf().jump*8:JUMP+skillOf().jump*22)*(hasPerk('springcore')?1.08:1)*(hasPerk('moonboots')?1.07:1)*(player.effects.spring>0?1.18:1);
  puff(player.x,land.y,land.boost?'#ffec80':'#e5fbff',land.boost?15:8,land.boost?1.4:.8);tone(land.boost?760:460,land.boost?.17:.055,land.boost?'sawtooth':'sine',land.boost?.038:.02);
  if(land.kind==='fragile'){land.broken=true;puff(land.x+land.w/2,land.y,'#d4ad8d',15,1.2)}}}
  topReached=Math.max(topReached,player.y+41);score=Math.max(0,Math.floor((topReached-FLOOR)/10));
+ if(score>lastTrackedScore){save.stats.meters+=score-lastTrackedScore;lastTrackedScore=score;}
  // Der Rekord zu Beginn des Versuchs bleibt als feste Ziellinie stehen.
  const newRecordCrossing=!recordCrossed&&runRecordTarget>0&&score>runRecordTarget;
  if(newRecordCrossing){recordCrossed=true;puff(player.x,player.y+45,'#ffe67c',34,2);tone(1040,.24,'triangle',.04)}
@@ -1140,11 +1333,11 @@ function update(dt){
 
 for(const coin of coins){if(coin.taken)continue;
  if(player.effects.magnet>0){let dx=player.x-coin.x,dy=player.y-18-coin.y;if(dx*dx+dy*dy<205*205){coin.x+=dx*Math.min(1,dt*5.5);coin.y+=dy*Math.min(1,dt*5.5)}}
- if(Math.abs(player.x-coin.x)<28&&Math.abs(player.y-18-coin.y)<32){coin.taken=true;collectMoney(coin.value*(player.effects.double>0?2:1),coin.x,coin.y)}}
+ if(Math.abs(player.x-coin.x)<28&&Math.abs(player.y-18-coin.y)<32){coin.taken=true;save.stats.coinPickups++;const pickedCoins=collectMoney(coin.value*(player.effects.double>0?2:1),coin.x,coin.y);if($('toast').hidden || performance.now()>=toastUntil-300)showToast('🪙 +'+pickedCoins+' Münzen eingesammelt!',1.45)}}
  coins=coins.filter(c=>c.y>camera-110&&!c.taken);
  particles=particles.filter(p=>p.age<p.life);for(const p of particles){p.age+=dt;p.vy-=280*dt;p.x+=p.vx*dt;p.y+=p.vy*dt}
  // Decorative sparkle trails do not affect gameplay.
- if(save.equip.trail&&Math.random()<dt*28){const selectedTrail=save.equip.trail;const t=ITEMS.find(it=>it.id===selectedTrail)?.visual||selectedTrail;const palettes={glitter:['#fff0a0','#ffffff','#ffd663'],rainbow:['#ff7ba2','#ffe77a','#63dbfa','#9ef6bd'],cosmos:['#e6a1ff','#68deff','#faf6ff'],flames:['#ff5e37','#ffc252','#ff9836'],bubbles:['#efffff','#7ee9ff','#b3bdff'],pixel:['#9ffa8e','#ed81ff','#a8e0ff'],aurora:['#8df6ff','#9efab2','#ffd7ff','#8ca4ff'],voidtrail:['#232040','#51417a','#9e8cff'],diamonddust:['#e8ffff','#c2f5ff','#8cd8ff'],lightningtrail:['#fff4a4','#ffe14e','#92f3ff'],embertrail:['#ffa061','#ffe06d','#fc605a'],goldtrail:['#fff3bc','#ffce54','#fffefa'],shadowtrail:['#29254e','#a381d6','#4c376e'],novatrail:['#ff9cf5','#9ee9ff','#ffffff'],comettrail:['#ffba77','#ffe6a7','#fff9de'],moontrail:['#d7e7ff','#a2c6ff','#ffffff'],eternitytrail:['#b794ff','#9affef','#fff0a0']};const cols=palettes[t];
+ if(save.equip.trail&&Math.random()<dt*28){const selectedTrail=save.equip.trail;const t=ITEMS.find(it=>it.id===selectedTrail)?.visual||selectedTrail;const palettes={glitter:['#fff0a0','#ffffff','#ffd663'],rainbow:['#ff7ba2','#ffe77a','#63dbfa','#9ef6bd'],cosmos:['#e6a1ff','#68deff','#faf6ff'],flames:['#ff5e37','#ffc252','#ff9836'],bubbles:['#efffff','#7ee9ff','#b3bdff'],pixel:['#9ffa8e','#ed81ff','#a8e0ff'],aurora:['#8df6ff','#9efab2','#ffd7ff','#8ca4ff'],voidtrail:['#232040','#51417a','#9e8cff'],diamonddust:['#e8ffff','#c2f5ff','#8cd8ff'],lightningtrail:['#fff4a4','#ffe14e','#92f3ff'],embertrail:['#ffa061','#ffe06d','#fc605a'],goldtrail:['#fff3bc','#ffce54','#fffefa'],shadowtrail:['#29254e','#a381d6','#4c376e'],novatrail:['#ff9cf5','#9ee9ff','#ffffff'],comettrail:['#ffba77','#ffe6a7','#fff9de'],moontrail:['#d7e7ff','#a2c6ff','#ffffff'],eternitytrail:['#b794ff','#9affef','#fff0a0'],candypath:['#ff87b5','#ffcc67','#e9b3ff'],crystalpath:['#b0f8ff','#94d7ff','#ffffff'],leaftrail:['#8be78f','#c7ff8b','#fff19e'],oceantrail:['#68dffc','#a8f6f2','#e6ffff'],suntrail:['#ffe35c','#ffab5b','#fff4b5'],shimmertrail:['#fc9bff','#7affde','#a5c9ff'],glitchtrail:['#73ffc1','#ff71ff','#a1adff'],starfalltrail:['#fff2af','#fac4ed','#bd9aff']};const cols=palettes[t];
  if(cols){const p={x:player.x+rand(-12,12),y:player.y-rand(2,20),vx:rand(-26,26),vy:rand(-80,-20),r:rand(2,4),life:rand(.35,.7),age:0,color:cols[Math.floor(Math.random()*cols.length)]};particles.push(p)}}
  hud();if(player.y<camera-95)gameOver();
 }
@@ -1245,6 +1438,18 @@ function character(c,cx,cy,size=1,charID=save.char,eq=save.equip,vy=0,vx=0){
  if(charID==='fox'){c.fillStyle='#fff1d1';c.beginPath();c.moveTo(-9,4);c.lineTo(0,12);c.lineTo(9,4);c.fill()}
  if(charID==='snow'){c.fillStyle='#f39545';c.beginPath();c.moveTo(0,0);c.lineTo(17,4);c.lineTo(0,6);c.fill()}
  if(charID==='alien'){c.fillStyle='#274466';for(const x of [-8,8]){c.beginPath();c.ellipse(x,-6,5,7,0,0,6.283);c.fill()}}
+
+
+ // Neue Figuren haben eigene Details und nicht nur andere Namen.
+ if(['pingu','owl'].includes(charID)){c.fillStyle='#effaff';for(const d of [-1,1]){c.beginPath();c.ellipse(d*18,5,7,18,d*.3,0,6.283);c.fill()}}
+ if(['bee','solardragon'].includes(charID)){c.fillStyle='#f1faffbd';for(const d of [-1,1]){c.beginPath();c.ellipse(d*21,-16,12,16,d*.55,0,6.283);c.fill()}}
+ if(['moonfox','rainbowcat','tiger','koala'].includes(charID)){c.fillStyle=def.b;for(const d of [-1,1]){c.beginPath();c.moveTo(d*12,-23);c.lineTo(d*21,-43);c.lineTo(d*25,-18);c.fill()}}
+ if(charID==='axolotl'){c.strokeStyle='#ffb6d9';c.lineWidth=5;for(const d of [-1,1])for(const y of [-20,-12,-4]){c.beginPath();c.moveTo(d*15,y);c.lineTo(d*30,y-6);c.stroke()}}
+ if(charID==='candy'){c.fillStyle='#ff95bd';c.beginPath();c.moveTo(-10,-27);c.lineTo(-23,-37);c.lineTo(-18,-19);c.fill();c.beginPath();c.moveTo(10,-27);c.lineTo(23,-37);c.lineTo(18,-19);c.fill()}
+ if(charID==='glitch'){c.fillStyle='#76faff';rr(c,-22,-31,44,8,2);c.fill()}
+ if(charID==='stargolem'){c.fillStyle='#949bcc';rr(c,-25,-27,50,13,3);c.fill()}
+ if(charID==='pilzling'){c.fillStyle='#d96b75';c.beginPath();c.ellipse(0,-25,29,14,0,Math.PI,6.283);c.fill()}
+ if(charID==='arcane'){c.fillStyle='#8464ba';c.beginPath();c.moveTo(-20,-23);c.lineTo(0,-53);c.lineTo(20,-23);c.closePath();c.fill()}
 
  // Cosmetic head slot (on top of body).
  if(eq.head==='cap'){c.fillStyle='#3b7fbd';rr(c,-19,-31,37,12,6);c.fill();c.fillStyle='#1c568c';rr(c,5,-23,25,6,3);c.fill()}
@@ -1450,7 +1655,7 @@ function section(text){const d=document.createElement('div');d.className='catego
 function refreshShop(){
  const g=$('shopGrid');g.replaceChildren();$('wallet').textContent='● '+save.wallet;
  for(const [tab,id] of [['figures','tabFigures'],['items','tabItems'],['skills','tabSkills'],['perks','tabPerks'],['weapons','tabWeapons']])$(id).classList.toggle('active',shopTab===tab);
- $('shopInfo').textContent=shopTab==='figures'?'Figuren freischalten und eigene Level sammeln.':shopTab==='items'?'Neue legendäre Accessoires und seltene Looks.':shopTab==='skills'?'Investiere Skillpunkte deiner aktuellen Figur.':shopTab==='weapons'?'Kaufe Waffen und verbessere sie dauerhaft mit Münzen.':'Dauerhafte Ausrüstung und nützliche Gegenstände. Autofire: 20.000 Münzen.';
+ $('shopInfo').textContent=shopTab==='figures'?'Wähle aus '+CHARACTERS.length+' Figuren und sammle individuelle Level.':shopTab==='items'?'Jetzt '+ITEMS.length+' Accessoires: Brillen, Hüte, Flügel und Spuren.':shopTab==='skills'?'Investiere Skillpunkte deiner aktuellen Figur.':shopTab==='weapons'?'Kaufe '+WEAPONS.length+' Waffen und verbessere sie dauerhaft mit Münzen.':'Dauerhafte Ausrüstung und nützliche Gegenstände. Autofire: 20.000 Münzen.';
  const def=CHARACTERS.find(c=>c.id===save.char);$('previewName').textContent=def.name;
  $('previewDesc').textContent=shopTab==='figures'?'Level '+levelOf()+' · Besthöhe '+save.best.toLocaleString('de-DE')+' m':shopTab==='items'?'Kosmetische Accessoires – auch legendäre':shopTab==='weapons'?'Aktuelle Waffe: '+WEAPONS[WEAPON_IDS.indexOf(save.equippedWeapon)].name+' · Stufe '+(save.weaponLevels[save.equippedWeapon]||1):'XP und Skillpunkte gehören deiner ausgewählten Figur.';
  if(shopTab==='figures'){
@@ -1647,7 +1852,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.6.10';
+const SPACEJUMPER_VERSION='2.8.0';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
