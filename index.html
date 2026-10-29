@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.6.8">
-<title>SpaceJumper v2.6.8 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.6.9">
+<title>SpaceJumper v2.6.9 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -186,47 +186,34 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .overlay .action:active,.overlay .secondary:active{filter:brightness(1.08);transform:translateY(3px)}
 @media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
 
-/* v2.6.8 – iOS fullscreen: separate Safari from installed PWA. */
-@media (max-width:600px){
- html,body{margin:0;width:100%;height:100%;overflow:hidden}
- body{display:block;position:relative;min-height:0;background:#76c8f5}
- .shell{position:fixed;top:0;left:0;width:100vw;width:100dvw;
-   height:100vh;height:100dvh;min-height:0;max-height:none;
-   aspect-ratio:auto;border:0;border-radius:0;box-shadow:none;overflow:hidden}
- canvas#game{display:block;width:100%;height:100%}
- .controls{bottom:calc(22px + env(safe-area-inset-bottom,0px))}
- .resourcebar{bottom:calc(115px + env(safe-area-inset-bottom,0px))}
-}
-/* iPhone 15 Pro PWA: iOS reserves an extra strip outside its CSS viewport.
-   Extend the ACTUAL canvas behind the home-indicator region, not a fake blue fill. */
-@media (max-width:600px) and (display-mode:standalone){
- .shell{height:calc(100dvh + 56px);min-height:0}
- .controls{bottom:calc(22px + env(safe-area-inset-bottom,0px))}
- .resourcebar{bottom:calc(115px + env(safe-area-inset-bottom,0px))}
-}
 
-/* v2.6.8: iOS Web-App fix: use the physical CSS-pixel screen height.
-   Safari's normal tab keeps the native visual viewport: never use screen.height there. */
-@media(max-width:600px){
-  html{margin:0!important;padding:0!important;height:100%!important;overflow:hidden!important}
-  body{margin:0!important;padding:0!important;position:fixed!important;
-       inset:0!important;width:100%!important;height:100%!important;
-       min-height:0!important;overflow:hidden!important;display:block!important}
-  body>.shell{position:fixed!important;inset:0 auto auto 0!important;
-       width:100vw!important;width:100dvw!important;
-       height:var(--sj-display-height, 100dvh)!important;
-       min-height:0!important;max-height:none!important;
-       aspect-ratio:auto!important;border:0!important;border-radius:0!important;
-       box-shadow:none!important;overflow:hidden!important}
-  .shell canvas#game{display:block!important;width:100%!important;height:100%!important}
-  .shell::after{display:none!important}
-  .controls{bottom:calc(20px + var(--sj-safe-guard,0px))!important}
-  .resourcebar{bottom:calc(114px + var(--sj-safe-guard,0px))!important}
+/* v2.6.9: one authoritative mobile layout. Do not constrain the parent body
+   to the visual viewport when iOS paints the bottom home-indicator region. */
+@media (max-width:600px){
+  html, body {width:100%; margin:0!important; padding:0!important; min-height:0!important}
+  html {height:100%; overflow:visible!important; background:#d7f8ff}
+  body {position:static!important; display:block!important; height:auto!important;
+    overflow:visible!important; background:#d7f8ff!important}
+  body > .shell {
+    position:fixed!important; top:0!important; left:0!important; right:auto!important;
+    width:100vw!important; height:var(--sj-height,100dvh)!important;
+    min-height:0!important; max-height:none!important; aspect-ratio:auto!important;
+    border:0!important; border-radius:0!important; margin:0!important;
+    box-shadow:none!important; overflow:hidden!important;
+  }
+  .shell > canvas#game {display:block!important; width:100%!important; height:100%!important}
+  .shell::after {display:none!important}
+  .controls {bottom:calc(20px + var(--sj-bottom-guard,0px))!important}
+  .resourcebar {bottom:calc(114px + var(--sj-bottom-guard,0px))!important}
 }
-/* Small optional diagnostics that can be switched on with ?sj_debug=1. */
-#sjFullscreenDebug{display:none;position:fixed;left:5px;bottom:5px;max-width:98vw;z-index:2147483647;
- pointer-events:none;padding:4px 7px;border-radius:7px;background:#000d;color:#fff;
- font:10px/1.25 monospace;white-space:pre-wrap}
+#sjFullscreenDebug {display:none;position:fixed;z-index:2147483647;
+  top:48%;left:3%;right:3%;max-height:46vh;overflow:auto;
+  padding:11px;border:2px solid #fff;border-radius:12px;
+  background:#112c52ee;color:#fff;font:12px/1.4 monospace;
+  white-space:pre-wrap;word-break:break-word;pointer-events:auto;
+  box-shadow:0 10px 30px #0019}
+#sjFullscreenDebug.visible {display:block}
+#sjFullscreenDebug button{font:800 12px system-ui;margin-top:8px;padding:7px 12px}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -235,54 +222,76 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 
+
 <script>
-/* iOS fullscreen height detection – avoid fixed 56px guesses and aspect ratio clipping.
-   iOS installed Home Screen apps may set navigator.standalone=true even when
-   @media(display-mode:standalone) is not matched. Safari tabs must not use screen.height. */
+/* iPhone web app: Safari tab is tied to viewport; installed PWA uses
+   screen CSS height if it has a bottom safe-area strip. No body clipping. */
 (function(){
-  function fitSpaceJumper(){
+  const mq='(max-width:600px)';
+  function fit(){
     const root=document.documentElement;
-    const mobile=window.matchMedia('(max-width:600px)').matches;
-    if(!mobile){root.style.removeProperty('--sj-display-height');root.style.removeProperty('--sj-safe-guard');return;}
-    const appMode=(navigator.standalone===true)||
-      window.matchMedia('(display-mode: standalone)').matches||
-      window.matchMedia('(display-mode: fullscreen)').matches;
-    const viewport=Math.max(1,window.innerHeight||0,document.documentElement.clientHeight||0);
-    // For iPhone 15 Pro: physical screen height is 852 CSS px in portrait.
-    // Browser Safari is sized only to the real visual viewport, not 852px.
-    const screenCss=Math.max(window.screen.height||0,window.screen.width||0);
+    if(!matchMedia(mq).matches)return;
+    const app=!!(navigator.standalone || matchMedia('(display-mode:standalone)').matches || matchMedia('(display-mode:fullscreen)').matches);
+    const inner=window.innerHeight || document.documentElement.clientHeight;
+    const screenHeight=Math.max(window.screen.width||0,window.screen.height||0);
     const portrait=window.innerHeight>=window.innerWidth;
-    const fullHeight=appMode&&portrait?Math.max(viewport,screenCss):viewport;
-    // Top and bottom insets: reserve any missing area for swipe/home indicator.
-    const missing=appMode?Math.min(105,Math.max(0,fullHeight-viewport)):0;
-    root.style.setProperty('--sj-display-height',Math.round(fullHeight)+'px');
-    root.style.setProperty('--sj-safe-guard',Math.round(missing)+'px');
-    const debug=document.getElementById('sjFullscreenDebug');
-    if(debug){debug.textContent='SpaceJumper v2.6.8 | app='+appMode+' | screen='+screenCss+
-      ' | inner='+window.innerHeight+' | visual='+(window.visualViewport?.height||'?')+
-      ' | full='+fullHeight+' | guard='+missing;}
+    const physical=app&&portrait?Math.max(inner,screenHeight):inner;
+    const gap=app?Math.max(0,physical-inner):0;
+    // Cap guard without capping the content itself. Buttons remain within touchable viewport.
+    root.style.setProperty('--sj-height',Math.ceil(physical)+'px');
+    root.style.setProperty('--sj-bottom-guard',Math.ceil(gap)+'px');
+    const info=document.getElementById('sjFullscreenDebug');
+    if(info&&info.classList.contains('visible'))diagnose();
   }
-  fitSpaceJumper();
-  addEventListener('resize',fitSpaceJumper,{passive:true});
-  addEventListener('orientationchange',fitSpaceJumper,{passive:true});
-  addEventListener('pageshow',fitSpaceJumper,{passive:true});
-  if(window.visualViewport)window.visualViewport.addEventListener('resize',fitSpaceJumper,{passive:true});
-  document.addEventListener('DOMContentLoaded',()=>{
-     if(new URLSearchParams(location.search).get('sj_debug')==='1'){
-       const el=document.createElement('div');el.id='sjFullscreenDebug';
-       el.style.display='block';document.body.appendChild(el);
-     }
-     fitSpaceJumper();
-  });
+  function diagnose(){
+    const el=document.getElementById('sjFullscreenDebug');if(!el)return;
+    const box=document.querySelector('.shell')?.getBoundingClientRect();
+    const can=document.getElementById('game')?.getBoundingClientRect();
+    const controls=document.querySelector('.controls')?.getBoundingClientRect();
+    const app=!!(navigator.standalone || matchMedia('(display-mode:standalone)').matches);
+    const coord=x=>x?Math.round(x.top)+'–'+Math.round(x.bottom)+'px':'—';
+    el.firstChild.textContent='SpaceJumper v2.6.9 – iPhone Bildschirmdiagnose\n'+
+      'App-Modus: '+app+'\n'+
+      'Screen: '+screen.width+'×'+screen.height+'\n'+
+      'inner: '+innerWidth+'×'+innerHeight+'\n'+
+      'document: '+document.documentElement.clientWidth+'×'+document.documentElement.clientHeight+'\n'+
+      'visualViewport: '+(visualViewport?Math.round(visualViewport.width)+'×'+Math.round(visualViewport.height):'—')+'\n'+
+      'CSS Höhe: '+getComputedStyle(document.querySelector('.shell')).height+'\n'+
+      'Shell: '+coord(box)+'\n'+
+      'Canvas: '+coord(can)+'\n'+
+      'Tasten: '+coord(controls)+'\n'+
+      'Guard: '+getComputedStyle(document.documentElement).getPropertyValue('--sj-bottom-guard');
+  }
+  function boot(){
+    const menu=document.getElementById('versionMenu');
+    if(!menu)return;
+    const btn=document.createElement('button');
+    btn.type='button';btn.textContent='📐 Bildschirm prüfen';btn.setAttribute('aria-label','iPhone Bildschirmdiagnose anzeigen');
+    const panel=document.createElement('div');panel.id='sjFullscreenDebug';
+    const text=document.createElement('div');panel.appendChild(text);
+    const close=document.createElement('button');close.type='button';close.textContent='Schließen';
+    close.addEventListener('click',()=>panel.classList.remove('visible'));
+    panel.appendChild(close);document.body.appendChild(panel);
+    btn.addEventListener('click',()=>{panel.classList.add('visible');diagnose()});
+    menu.appendChild(btn);
+    fit();
+  }
+  fit();
+  addEventListener('resize',fit,{passive:true});
+  addEventListener('orientationchange',fit,{passive:true});
+  addEventListener('pageshow',fit,{passive:true});
+  visualViewport?.addEventListener('resize',fit,{passive:true});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
 </script>
+
 </head>
 <body>
 <main class="shell" aria-label="SpaceJumper Hüpfspiel">
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.8</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.9</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -321,7 +330,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.8</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.9</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -1616,7 +1625,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.6.8';
+const SPACEJUMPER_VERSION='2.6.9';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
