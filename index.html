@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.6.1">
-<title>SpaceJumper v2.6.1 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.6.2">
+<title>SpaceJumper v2.6.2 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -185,6 +185,22 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .overlay .secondary{background:linear-gradient(135deg,#fff,#d8eaff);border:2px solid #bad4f3;box-shadow:0 3px 0 #8eadd6,0 7px 13px #729bd52c;transition:filter .15s,transform .15s}
 .overlay .action:active,.overlay .secondary:active{filter:brightness(1.08);transform:translateY(3px)}
 @media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
+
+/* v2.6.2: Das Spielfeld nutzt auf Smartphones die gesamte verfügbare Höhe.
+   Die Spielkoordinaten bleiben unverändert; nur die Darstellung passt sich an. */
+@media (max-width: 600px) {
+  html,body {width:100%;height:100%;min-height:100%;margin:0;overflow:hidden}
+  body {display:block;min-height:100dvh;background:#76c8f5}
+  .shell {
+    width:100vw;width:100dvw;
+    height:100vh;height:100dvh;
+    max-width:none;max-height:none;aspect-ratio:auto;
+    margin:0;border:0;border-radius:0;box-shadow:none;
+  }
+  canvas#game {width:100%;height:100%}
+}
+/* Kurze Desktop-Fenster behalten die bisherige maßstabsgetreue Ansicht. */
+
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -198,7 +214,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.1</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.2</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -237,7 +253,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.1</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.2</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -1532,7 +1548,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.6.1';
+const SPACEJUMPER_VERSION='2.6.2';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
