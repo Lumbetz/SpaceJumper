@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.6.9">
-<title>SpaceJumper v2.6.9 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.6.10">
+<title>SpaceJumper v2.6.10 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -187,7 +187,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 @media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
 
 
-/* v2.6.9: one authoritative mobile layout. Do not constrain the parent body
+/* v2.6.10: one authoritative mobile layout. Do not constrain the parent body
    to the visual viewport when iOS paints the bottom home-indicator region. */
 @media (max-width:600px){
   html, body {width:100%; margin:0!important; padding:0!important; min-height:0!important}
@@ -214,6 +214,28 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   box-shadow:0 10px 30px #0019}
 #sjFullscreenDebug.visible {display:block}
 #sjFullscreenDebug button{font:800 12px system-ui;margin-top:8px;padding:7px 12px}
+
+/* v2.6.10: iPhone 15 Pro – lesbare Kopfzeile und harmonischer unterer Abschluss.
+   Kein weiterer Eingriff in Spiellogik, Bewegungen oder Speicherschluessel. */
+@media(max-width:600px){
+  :root{--sj-top-safe:max(53px,env(safe-area-inset-top,0px))}
+  /* Farbübergang zur Berglandschaft – iOS malt den Bereich unter dem
+     App-Viewport teilweise nur mit dem Hintergrund der HTML-Seite. */
+  html{
+    background-color:#9dcad0!important;
+    background-image:linear-gradient(to bottom,#9dcad0 0%,#9dcad0 43%,#8bbac5 100%)!important;
+    background-size:100% 96px!important;
+    background-position:bottom center!important;
+    background-repeat:no-repeat!important;
+  }
+  body{background:#9dcad0!important}
+  /* Notch/Dynamic Island freihalten. Anzeigen relativ zueinander verschieben. */
+  .hud{top:var(--sj-top-safe)!important}
+  .zonehud{top:calc(106px + var(--sj-top-safe))!important}
+  .statushud{top:calc(173px + var(--sj-top-safe))!important}
+  .pause{top:calc(101px + var(--sj-top-safe))!important}
+  .autofireToggle{top:calc(225px + var(--sj-top-safe))!important}
+}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -250,7 +272,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
     const controls=document.querySelector('.controls')?.getBoundingClientRect();
     const app=!!(navigator.standalone || matchMedia('(display-mode:standalone)').matches);
     const coord=x=>x?Math.round(x.top)+'–'+Math.round(x.bottom)+'px':'—';
-    el.firstChild.textContent='SpaceJumper v2.6.9 – iPhone Bildschirmdiagnose\n'+
+    el.firstChild.textContent='SpaceJumper v2.6.10 – iPhone Bildschirmdiagnose\n'+
       'App-Modus: '+app+'\n'+
       'Screen: '+screen.width+'×'+screen.height+'\n'+
       'inner: '+innerWidth+'×'+innerHeight+'\n'+
@@ -291,7 +313,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.9</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.6.10</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -330,7 +352,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       <button class="btn secondary" id="continueRun" type="button" hidden>↪ LETZTEN LAUF FORTSETZEN</button>
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.9</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.6.10</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -1625,7 +1647,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.6.9';
+const SPACEJUMPER_VERSION='2.6.10';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
