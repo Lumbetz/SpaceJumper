@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#121d47">
-<meta name="spacejumper-version" content="2.9.0">
-<title>SpaceJumper v2.9.0 – iPhone Edition</title>
+<meta name="spacejumper-version" content="2.9.1">
+<title>SpaceJumper v2.9.1 – iPhone Edition</title>
 <style>
 *{box-sizing:border-box} :root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color-scheme:dark}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 12%,#6f8fd7 0%,#2e4576 28%,#121c37 58%,#070d1e 100%)}
@@ -187,7 +187,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 @media(prefers-reduced-motion:reduce){.overlay,.overlay::before,.overlay .panel,.overlay .hero,.overlay h1{animation:none!important}}
 
 
-/* v2.9.0: one authoritative mobile layout. Do not constrain the parent body
+/* v2.9.1: one authoritative mobile layout. Do not constrain the parent body
    to the visual viewport when iOS paints the bottom home-indicator region. */
 @media (max-width:600px){
   html, body {width:100%; margin:0!important; padding:0!important; min-height:0!important}
@@ -215,7 +215,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 #sjFullscreenDebug.visible {display:block}
 #sjFullscreenDebug button{font:800 12px system-ui;margin-top:8px;padding:7px 12px}
 
-/* v2.9.0: iPhone 15 Pro – lesbare Kopfzeile und harmonischer unterer Abschluss.
+/* v2.9.1: iPhone 15 Pro – lesbare Kopfzeile und harmonischer unterer Abschluss.
    Kein weiterer Eingriff in Spiellogik, Bewegungen oder Speicherschluessel. */
 @media(max-width:600px){
   :root{--sj-top-safe:max(53px,env(safe-area-inset-top,0px))}
@@ -237,7 +237,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   .autofireToggle{top:calc(225px + var(--sj-top-safe))!important}
 }
 
-/* v2.9.0 – scrollbare lebenslange Karriere-Statistik, iPhone-sicher */
+/* v2.9.1 – scrollbare lebenslange Karriere-Statistik, iPhone-sicher */
 .statsLayer{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;padding:14px;background:#081b46e6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .statsLayer[hidden]{display:none!important}
 .statsPanel{width:100%;max-width:385px;max-height:calc(100% - 10px);overflow:hidden;display:flex;flex-direction:column;border:2px solid #fff;border-radius:24px;background:linear-gradient(165deg,#fafdff,#e0efff);color:#17376b;box-shadow:0 15px 45px #071637aa}
@@ -254,7 +254,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .statsFoot{font-size:11px;line-height:1.5;color:#5f779a;background:#eaf3ff;border-radius:12px;padding:10px 12px;margin:15px 0 0}
 @media(max-width:360px){.statsHead h2{font-size:19px}.statsHero b{font-size:19px}.statsTile strong{font-size:15px}}
 
-/* v2.9.0: Pickup-Meldungen auf iPhone und Desktop wieder gut lesbar.
+/* v2.9.1: Pickup-Meldungen auf iPhone und Desktop wieder gut lesbar.
    Oberhalb der Spielwelt, aber unter der Notch und den Höhen-/Rekordanzeigen. */
 .toast{
   top:112px;
@@ -275,7 +275,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 }
 @media(max-width:360px){.toast{font-size:13px;padding:9px 11px}}
 
-/* v2.9.0: Kompakte Sammelmeldung zwischen Höhen- und Rekordfeld. */
+/* v2.9.1: Kompakte Sammelmeldung zwischen Höhen- und Rekordfeld. */
 .toast{top:20px!important;width:clamp(128px,32%,146px)!important;min-width:0!important;
  max-width:146px!important;max-height:91px!important;min-height:0!important;
  padding:7px 7px!important;border-radius:14px!important;border-width:1.5px!important;
@@ -287,7 +287,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
  left:calc(50% + 12px)!important;width:106px!important;max-width:106px!important;
  font-size:10.3px!important;padding:6px 5px!important;max-height:90px!important;}}
 
-/* v2.9.0: clear HUD on iPhone (opaque surfaces, no backdrop blur). */
+/* v2.9.1: clear HUD on iPhone (opaque surfaces, no backdrop blur). */
 .hud .pill,.zonehud,.statushud .hearts,.statushud .effectchip,.pause{
  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
  background-color:#173b70!important;
@@ -304,7 +304,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 #shopGrid .item button:disabled{cursor:default;}
 /* Keep the compact pickup popup between the two top boxes. */
 @media(max-width:600px){.toast{z-index:9;}}
-/* v2.9.0: crisp UI, lower compositing costs on iOS */
+/* v2.9.1: crisp UI, lower compositing costs on iOS */
 @media(max-width:600px){
  .shopLayer,.statsLayer,.backupLayer{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
  .shopscroll{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
@@ -322,6 +322,15 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
 .achievementBar{height:5px;background:#b6bcd1;border-radius:8px;overflow:hidden}
 .achievementBar i{display:block;height:100%;background:#ffb94a;border-radius:8px}
 @media(max-width:370px){.achievementsGrid{grid-template-columns:1fr}}
+
+/* v2.9.1: Shop schließen auf Touchgeräten jederzeit erreichbar. */
+#closeShop,#closeShopBottom{touch-action:manipulation;-webkit-tap-highlight-color:transparent;position:relative;z-index:2;flex-shrink:0}
+#closeShop{min-width:42px;min-height:42px;font-size:23px;background:#e2eaf8;color:#1f477b}
+.shopfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;min-height:55px;}
+.shopfoot .shopfootText{min-width:0;flex:1}
+#closeShopBottom{border:0;border-radius:12px;padding:10px 13px;min-height:42px;color:#fff;background:#245b9c;font-weight:900;font-size:12px;white-space:nowrap;cursor:pointer}
+.shopPanel{min-height:0;max-height:calc(100% - 8px)}
+.shopscroll{min-height:0;flex:1 1 0;overscroll-behavior:contain;}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -358,7 +367,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
     const controls=document.querySelector('.controls')?.getBoundingClientRect();
     const app=!!(navigator.standalone || matchMedia('(display-mode:standalone)').matches);
     const coord=x=>x?Math.round(x.top)+'–'+Math.round(x.bottom)+'px':'—';
-    el.firstChild.textContent='SpaceJumper v2.9.0 – iPhone Bildschirmdiagnose\n'+
+    el.firstChild.textContent='SpaceJumper v2.9.1 – iPhone Bildschirmdiagnose\n'+
       'App-Modus: '+app+'\n'+
       'Screen: '+screen.width+'×'+screen.height+'\n'+
       'inner: '+innerWidth+'×'+innerHeight+'\n'+
@@ -399,7 +408,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
   <canvas id="game" width="420" height="760" aria-label="Hüpfspiel"></canvas>
   <div class="hud" aria-live="off">
     <div class="pill"><span class="lab">Deine Höhe</span><strong class="num" id="height">0 m</strong><span class="cash" id="coinCount">● 0 Münzen</span></div>
-    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.9.0</span></div>
+    <div class="pill right"><span class="lab">Rekord</span><strong class="num" id="best">0 m</strong><span class="version-hud">v2.9.1</span></div>
   </div>
   <div class="zonehud" id="zonehud"><div class="ztop"><span id="zoneIcon">🌿</span><span id="zoneName">Wiesenwelt</span></div><div class="next" id="zoneNext">Nächste Sphäre bei 180 m</div><div class="progress"><i id="zoneBar"></i></div></div>
   <div class="statushud" id="statushud"><span class="hearts" id="hearts" aria-label="Leben">♥ ♥ ♥</span><span id="effects" style="display:contents"></span></div>
@@ -439,7 +448,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       <button class="btn secondary" id="openShop" type="button">✦ SHOP &amp; FIGUREN</button>
       <button class="btn secondary" id="openStats" type="button">📊 EWIGE STATISTIK</button>
       <button class="btn secondary backupLaunch" id="openBackup" type="button">💾 SPIELSTAND SICHERN / LADEN</button>
-       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.9.0</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
+       <div class="version-menu" id="versionMenu"><strong>SpaceJumper v2.9.1</strong><button type="button" id="checkForUpdates" aria-label="Nach neuer Version suchen">↻ Update prüfen</button><span id="updateStatus" aria-live="polite"></span></div>
       <p class="hint" id="hint">PC: A / D oder ◀ / ▶ bewegen · Leertaste für jeden Schuss neu drücken (auch X / ↑).<br>W schießt nicht · Handy: ◀ / ▶ und SCHUSS-Taste.</p>
     </div>
   </section>
@@ -470,7 +479,7 @@ canvas#game{display:block;width:100%;height:100%;touch-action:none}
       </div>
       <div class="previewbar"><canvas id="preview" width="100" height="112" aria-label="Vorschau deiner Figur"></canvas><div><div class="pvtitle" id="previewName">Sunny</div><div class="pvsub" id="previewDesc">Neue Figuren schaltest du mit Höhenrekorden frei.</div></div></div>
       <div class="shopscroll" id="shopScroll"><div class="shopgrid" id="shopGrid"></div></div>
-      <div class="shopfoot" id="shopFoot">Waffen und Käufe bleiben lokal gespeichert. <button id="shopBackup" type="button" class="shopBackup" style="cursor:pointer;border:1px solid #aac8e7;border-radius:9px;background:#fff;padding:6px 9px;color:#265793;font-weight:1000;">💾 Backup</button></div>
+      <div class="shopfoot" id="shopFoot"><span class="shopfootText">Alle Käufe bleiben gespeichert. <button id="shopBackup" type="button" class="shopBackup" style="cursor:pointer;border:1px solid #aac8e7;border-radius:9px;background:#fff;padding:6px 9px;color:#265793;font-weight:1000;">💾 Backup</button></span><button id="closeShopBottom" type="button" aria-label="Shop schließen">✕ Schließen</button></div>
     </div>
   </section>
   <section class="backupLayer" id="backupLayer" hidden aria-label="Spielstand sichern oder wiederherstellen">
@@ -1773,8 +1782,25 @@ function loop(now){
 function drawPreview(){const c=$('preview'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);character(g,50,66,1.15,save.char,save.equip,120,0)}
 function refreshHero(){const c=$('heroCanvas'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);character(g,60,78,1.55,save.char,save.equip,160,0)}
 function openShop(){if(mode==='playing')pause();shopOpen=true;shopTab='weapons';$('shopLayer').hidden=false;refreshShop();tone(640,.07)}
-function closeShop(){shopOpen=false;$('shopLayer').hidden=true;refreshHero();persist();tone(410,.05)}
-$('openShop').addEventListener('click',openShop);$('closeShop').addEventListener('click',closeShop);
+function closeShop(){
+ // First close the overlay synchronously: even if save/audio throws, the user is never trapped.
+ shopOpen=false;
+ $('shopLayer').hidden=true;
+ try{refreshHero();}catch(err){console.warn('Shop preview:',err);}
+ try{persist();}catch(err){console.warn('Shop save:',err);}
+ try{tone(410,.05);}catch(err){}
+}
+$('openShop').addEventListener('click',openShop);
+$('closeShop').addEventListener('click',closeShop);
+$('closeShopBottom').addEventListener('click',closeShop);
+$('shopLayer').addEventListener('click',event=>{if(event.target===$('shopLayer'))closeShop();});
+// iOS may suppress a click after long scrolling. A separate pointer/touch route
+// ensures a tap on either close button still exits the shop.
+for(const id of ['closeShop','closeShopBottom']){
+ const btn=$(id);
+ btn.addEventListener('pointerup',event=>{if(event.pointerType==='touch'&&shopOpen){event.preventDefault();closeShop();}});
+}
+
 $('tabFigures').addEventListener('click',()=>{shopTab='figures';refreshShop();tone(510,.06)});
 $('tabItems').addEventListener('click',()=>{shopTab='items';refreshShop();tone(510,.06)});
 $('tabSkills').addEventListener('click',()=>{shopTab='skills';refreshShop();tone(510,.06)});
@@ -2045,7 +2071,7 @@ $('clearBackupCode').addEventListener('click',()=>{$('backupCode').value='';back
 $('backupLayer').addEventListener('click',event=>{if(event.target===$('backupLayer'))closeBackupPanel();});
 
 // Versionskontrolle auf GitHub Pages. Keine Speicherung wird verändert.
-const SPACEJUMPER_VERSION='2.9.0';
+const SPACEJUMPER_VERSION='2.9.1';
 let versionCheckPending=false,lastVersionCheck=0,announcedVersion='';
 const versionStatus=$('updateStatus'),updateBox=$('updateNotice');
 function compareGameVersions(a,b){
